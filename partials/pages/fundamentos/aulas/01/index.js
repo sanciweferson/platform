@@ -1,0 +1,160 @@
+if (!customElements.get("aula-fundamentos-01")) {
+
+  /* =========================================================
+     CONTEÚDO DA AULA
+  ========================================================= */
+  const aula = {
+    modulo: "Fundamentos",
+    num: "01",
+    title: "Introdução ao JavaScript",
+    duration: "8 min",
+    badge: "Grátis",
+    prev: null,
+    next: "?pagina=fundamentos/aulas/02",
+  };
+
+  /* =========================================================
+     TEMPLATES
+  ========================================================= */
+  const createHeader = () => `
+    <header class="aula-header">
+      <div class="aula-header__meta">
+        <a href="?pagina=fundamentos" class="aula-back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          ${aula.modulo}
+        </a>
+        <span class="aula-header__num">Aula ${aula.num}</span>
+      </div>
+      <h1 class="aula-header__title">${aula.title}</h1>
+      <div class="aula-header__info">
+        <span class="aula-badge aula-badge--${aula.badge === "Grátis" ? "free" : "pro"}">${aula.badge}</span>
+        <span class="aula-duration">${aula.duration} de leitura</span>
+      </div>
+    </header>`;
+
+  const createContent = () => `
+    <div class="aula-body">
+
+      <section class="aula-section">
+        <h2>O que é JavaScript?</h2>
+        <p>
+          JavaScript é uma linguagem de programação <strong>interpretada</strong>, 
+          <strong>dinâmica</strong> e <strong>multiparadigma</strong>. Criada em 1995 por 
+          Brendan Eich enquanto trabalhava na Netscape, ela nasceu com um objetivo simples: 
+          tornar páginas web interativas.
+        </p>
+        <p>
+          Hoje, JS vai muito além do navegador. Com o Node.js, ele roda no servidor. 
+          Com React Native e Electron, ele cria apps mobile e desktop. 
+          É literalmente a linguagem mais usada do mundo há mais de uma década.
+        </p>
+      </section>
+
+      <section class="aula-section">
+        <h2>Onde o JavaScript roda?</h2>
+        <div class="aula-cards">
+          <div class="aula-card">
+            <div class="aula-card__icon">🌐</div>
+            <h3>Navegador</h3>
+            <p>Chrome, Firefox, Safari — todo navegador tem uma engine JS embutida.</p>
+          </div>
+          <div class="aula-card">
+            <div class="aula-card__icon">🖥️</div>
+            <h3>Servidor</h3>
+            <p>Node.js permite rodar JS fora do navegador, no backend.</p>
+          </div>
+          <div class="aula-card">
+            <div class="aula-card__icon">📱</div>
+            <h3>Mobile</h3>
+            <p>React Native e Expo criam apps iOS e Android com JS.</p>
+          </div>
+          <div class="aula-card">
+            <div class="aula-card__icon">🖱️</div>
+            <h3>Desktop</h3>
+            <p>Electron roda apps desktop como VSCode e Figma usando JS.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="aula-section">
+        <h2>Para que serve?</h2>
+        <p>
+          No navegador, o JavaScript é responsável por tudo que <em>se move</em> ou 
+          <em>reage</em> na página — validar um formulário, abrir um menu, 
+          buscar dados sem recarregar, animar elementos.
+        </p>
+        <p>
+          É a única linguagem que roda nativamente no navegador, o que a torna 
+          indispensável para qualquer desenvolvedor web.
+        </p>
+      </section>
+
+      <section class="aula-section">
+        <h2>JS vs Java — não é a mesma coisa</h2>
+        <div class="aula-callout aula-callout--info">
+          <strong>Atenção:</strong> JavaScript e Java são linguagens completamente diferentes. 
+          O nome "JavaScript" foi uma jogada de marketing da Netscape para pegar carona 
+          na popularidade do Java. Elas não compartilham sintaxe, runtime nem filosofia.
+        </div>
+      </section>
+
+      <section class="aula-section">
+        <h2>Seu primeiro código</h2>
+        <p>Abra o console do navegador (F12 → Console) e digite:</p>
+        <pre class="aula-code"><code>console.log("Olá, JavaScript!");</code></pre>
+        <p>
+          O <code>console.log()</code> é a função mais usada para depurar código. 
+          Ela imprime qualquer valor no console do DevTools.
+        </p>
+      </section>
+
+      <section class="aula-section">
+        <h2>Resumo</h2>
+        <ul class="aula-list">
+          <li>JavaScript foi criado em 1995 e é a linguagem da web.</li>
+          <li>Roda no navegador, servidor, mobile e desktop.</li>
+          <li>É interpretado — não precisa compilar para executar.</li>
+          <li>Não tem nada a ver com Java.</li>
+          <li><code>console.log()</code> é seu melhor amigo no início.</li>
+        </ul>
+      </section>
+
+    </div>`;
+
+  const createNav = () => `
+    <nav class="aula-nav">
+      ${aula.prev
+      ? `<a href="${aula.prev}" class="aula-nav__btn aula-nav__btn--prev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Aula anterior
+          </a>`
+      : `<span></span>`
+    }
+      ${aula.next
+      ? `<a href="${aula.next}" class="aula-nav__btn aula-nav__btn--next">
+            Próxima aula
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>`
+      : ""
+    }
+    </nav>`;
+
+  /* =========================================================
+     WEB COMPONENT
+  ========================================================= */
+  class AulaFundamentos01 extends HTMLElement {
+    connectedCallback() {
+      this.innerHTML = `
+        <main class="page-aula">
+          <div class="aula-wrapper">
+            ${createHeader()}
+            ${createContent()}
+            ${createNav()}
+          </div>
+        </main>
+      `;
+    }
+  }
+
+  customElements.define("aula-fundamentos-01", AulaFundamentos01);
+}

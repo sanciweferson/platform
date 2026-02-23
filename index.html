@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Learning Platform</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header-bar></header-bar>
+
+  <!-- ── HOME — fica aqui, fora do #app ── -->
+  <div id="home-content">
+
+    <section class="home-hero">
+      <div class="home-hero__eyebrow">Aprenda do zero ao avançado</div>
+      <h1 class="home-hero__title">JavaScript<br>na prática.</h1>
+      <p class="home-hero__desc">
+        Um guia direto ao ponto para dominar JavaScript moderno —
+        desde os fundamentos até orientação a objetos e código assíncrono.
+      </p>
+      <div class="home-hero__cta">
+        <a href="?pagina=fundamentos" class="btn-primary">Começar agora</a>
+        <span class="home-hero__free">50 aulas gratuitas</span>
+      </div>
+    </section>
+
+    <section class="home-modules">
+      <h2 class="home-modules__title">Módulos do curso</h2>
+      <div class="home-modules__grid">
+        <!-- cards dos módulos -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ── SPA injeta as páginas aqui ── -->
+  <div id="app"></div>
+
+  <footer-bar></footer-bar>
+
+  <script src="layout/index.js"></script>
+  <script src="layout/footer.js"></script>
+  <script src="layout/menu.js"></script>
+  <script src="spa/index.js"></script>
+  <script src="index.js"></script>
+
+  <script type="module">
+    import { initTheme } from "/js/theme/theme.init.js"
+    window.onload = () => { initTheme() }
+  </script>
+
+</body>
+</html>

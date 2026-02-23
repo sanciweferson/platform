@@ -1,0 +1,299 @@
+/* =========================================================
+   IMPORTS
+========================================================= */
+@import "root.css";
+@import "reset.css";
+@import "layout/index.css";
+@import "layout/footer.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+
+/* =========================================================
+   BASE
+========================================================= */
+html {
+  scroll-behavior: smooth;
+  min-height: 100%;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body>main,
+body>[role="main"],
+#app {
+  flex: 1;
+}
+
+/* =========================================================
+   HOME WRAPPER
+========================================================= */
+#home-content {
+  padding-inline: 1.25rem;
+  max-width: 72rem;
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+.home-hero {
+  padding-block: 5rem 3.5rem;
+  max-width: 42rem;
+}
+
+.home-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 1.25rem;
+}
+
+.home-hero__eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background-color: var(--muted-foreground);
+  opacity: 0.6;
+}
+
+.home-hero__title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 9vw, 5.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--foreground);
+  margin-bottom: 1.5rem;
+}
+
+.home-hero__desc {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--muted-foreground);
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  max-width: 34rem;
+}
+
+.home-hero__cta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* ── Botão primário ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.625rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius, 0.65rem);
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 3px oklch(0 0 0 / 12%), 0 4px 12px oklch(0 0 0 / 8%);
+}
+
+.btn-primary:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px oklch(0 0 0 / 14%), 0 8px 20px oklch(0 0 0 / 10%);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.home-hero__free {
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+/* =========================================================
+   MÓDULOS
+========================================================= */
+.home-modules {
+  padding-bottom: 6rem;
+}
+
+.home-modules__title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 1.5rem;
+}
+
+.home-modules__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.625rem;
+}
+
+/* =========================================================
+   MODULE CARD
+========================================================= */
+.module-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.375rem 1.25rem;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 0.65rem);
+  text-decoration: none;
+  color: var(--foreground);
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Linha decorativa no topo ao hover */
+.module-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background-color: var(--primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.module-card:hover::before {
+  transform: scaleX(1);
+}
+
+.module-card:hover {
+  border-color: var(--ring);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px oklch(0 0 0 / 8%);
+}
+
+.module-card--soon {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
+.module-card--soon::before {
+  display: none;
+}
+
+/* ── Header do card ── */
+.module-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.module-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+}
+
+.module-badge--soon {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+}
+
+/* ── Body do card ── */
+.module-card__body {
+  flex: 1;
+}
+
+.module-card__body h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+.module-card__body p {
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+}
+
+/* ── Footer do card ── */
+.module-card__footer {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  border-top: 1px solid var(--border);
+  padding-top: 0.875rem;
+  margin-top: auto;
+  transition: border-color 0.2s ease;
+}
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+@media (min-width: 640px) {
+  #home-content {
+    padding-inline: 1.5rem;
+  }
+
+  .home-modules__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  #home-content {
+    padding-inline: 2rem;
+  }
+
+  .home-hero {
+    padding-block: 6rem 4rem;
+  }
+
+  .home-modules__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

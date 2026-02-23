@@ -1,0 +1,497 @@
+/* =========================================================
+   VARIÁVEIS DE COR
+========================================================= */
+:root {
+  --radius: 0.65rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Alturas e transições */
+  --header-height: 3.5rem;
+  --nav-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* .dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+} */
+
+/* =========================================================
+   RESET BÁSICO
+========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  height: 100%;
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color var(--nav-transition), color var(--nav-transition);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Empurra o footer para baixo quando o conteúdo é curto */
+body>main,
+body>[role="main"] {
+  flex: 1;
+}
+
+/* =========================================================
+   HEADER  —  mobile first
+========================================================= */
+header-bar header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+  transition: background-color var(--nav-transition), border-color var(--nav-transition);
+}
+
+/* =========================================================
+   NAV
+========================================================= */
+header-bar nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding-inline: 1rem;
+}
+
+/* =========================================================
+   UL DESKTOP (logo + links)
+========================================================= */
+header-bar nav>ul {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+header-bar nav>ul::-webkit-scrollbar {
+  display: none;
+  /* Chrome / Safari */
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+header-bar .logo a {
+  display: flex;
+  align-items: center;
+  color: var(--foreground);
+  text-decoration: none;
+  padding: 0.4rem;
+  border-radius: var(--radius);
+  transition: opacity var(--nav-transition);
+}
+
+header-bar .logo a:hover {
+  opacity: 0.75;
+}
+
+header-bar .logo svg {
+  width: 2rem;
+  height: 2rem;
+  fill: var(--foreground);
+  transition: fill var(--nav-transition);
+}
+
+/* =========================================================
+   LINKS DE NAV  —  escondidos no mobile
+========================================================= */
+header-bar nav>ul>li:not(.logo) {
+  display: none;
+}
+
+header-bar nav>ul>li a {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: color var(--nav-transition), background-color var(--nav-transition);
+}
+
+header-bar nav>ul>li a:hover {
+  color: var(--foreground);
+  background-color: var(--accent);
+}
+
+/* =========================================================
+   GRUPO DE BOTÕES (tema + hamburger)
+========================================================= */
+.nav__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* =========================================================
+   BOTÃO TEMA
+========================================================= */
+.nav__btn-theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--foreground);
+  transition: background-color var(--nav-transition), border-color var(--nav-transition), color var(--nav-transition), transform 0.2s ease;
+ 
+}
+
+
+
+.nav__btn-theme:active {
+  transform: scale(0.92);
+}
+
+.nav__btn-theme:hover {
+
+  background-color: var(--accent);
+
+}
+
+
+
+.nav__btn-theme:active {
+
+  transform: scale(0.92);
+
+}
+
+
+
+
+
+[data-theme="dark"] .icon-sun {
+  display: block;
+}
+
+[data-theme="dark"] .icon-moon {
+  display: none;
+}
+
+[data-theme="light"] .icon-sun {
+  display: none;
+}
+
+[data-theme="light"] .icon-moon {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+
+.nav__theme-desktop{
+  display: none;
+}
+
+
+
+
+/* Animação de rotação na troca */
+.nav__btn-theme:focus-visible {
+
+  outline: 2px solid var(--ring);
+
+  outline-offset: 2px;
+
+}
+
+/* Animação de rotação na troca */
+.nav__btn-theme svg {
+
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+
+}
+
+.nav__btn-theme:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+
+
+/* =========================================================
+   BOTÃO HAMBURGER
+========================================================= */
+.nav__btn-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--foreground);
+  transition: background-color var(--nav-transition), border-color var(--nav-transition);
+
+}
+
+.nav__btn-toggle:hover {
+  background-color: var(--accent);
+}
+
+.nav__btn-toggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.nav__icon--close {
+  display: none;
+}
+
+/* Quando o menu está aberto */
+.nav__btn-toggle[aria-expanded="true"] .nav__icon--open {
+  display: none;
+}
+
+.nav__btn-toggle[aria-expanded="true"] .nav__icon--close {
+  display: flex;
+}
+
+/* =========================================================
+   ASIDE  —  menu mobile (drawer lateral)
+========================================================= */
+.nav__aside {
+  position: fixed;
+  inset: var(--header-height) 0 0 0;
+  z-index: 99;
+  visibility: hidden;
+  pointer-events: none;
+  top: 0;
+
+}
+
+/* Overlay escuro atrás do drawer */
+.nav__aside::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: oklch(0 0 0 / 0);
+  transition: background-color var(--nav-transition);
+}
+
+/* Drawer em si */
+.nav__mobile-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(80vw, 22rem);
+  height: 100%;
+  background-color: var(--card);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+  transform: translateX(-100%);
+  transition: transform var(--nav-transition), background-color var(--nav-transition);
+  overflow-y: auto;
+  display: flex;
+justify-content: space-between;
+  gap: 1.5rem;
+
+}
+
+/* Estado aberto */
+.nav__aside.is-open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.nav__aside.is-open::before {
+  background-color: oklch(0 0 0 / 40%);
+}
+
+.nav__aside.is-open .nav__mobile-wrapper {
+  transform: translateX(0);
+}
+.nav__mobile-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================================================
+   LISTA MOBILE
+========================================================= */
+.nav__list--mobile {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav__list--mobile li a {
+  display: block;
+  padding: 0.65rem 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--foreground);
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: background-color var(--nav-transition), color var(--nav-transition);
+}
+
+.nav__list--mobile li a:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* Botão de tema dentro do mobile — alinhado com os links */
+.nav__mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.875rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.5rem;
+}
+
+.nav__mobile-header .logo a {
+  display: flex;
+  align-items: center;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.nav__mobile-header .logo svg {
+  width: 2rem;
+  height: 2rem;
+  fill: var(--foreground);
+}
+
+/* =========================================================
+   ANIMAÇÃO DE ENTRADA DOS ITENS DO MENU MOBILE
+   (staggered via custom property)
+========================================================= */
+.nav__list--mobile li {
+  opacity: 0;
+  transform: translateX(-1.5rem);
+  transition:
+    opacity 0.25s ease calc(var(--i, 0) * 50ms),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) calc(var(--i, 0) * 50ms);
+}
+
+.nav__aside.is-open .nav__list--mobile li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* =========================================================
+   DESKTOP  —  a partir de 768px
+========================================================= */
+@media (min-width: 768px) {
+
+  /* Links visíveis no desktop */
+  header-bar nav>ul>li:not(.logo) {
+    display: list-item;
+  }
+  nav{
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Esconde botão hamburger */
+  .nav__btn-toggle {
+    display: none;
+  }
+
+  /* Esconde o aside mobile */
+  .nav__aside {
+    display: none;
+  }
+  .nav__theme-desktop {
+    display: block;
+  }
+}
+
+/* =========================================================
+   UTILITÁRIO
+========================================================= */
+/* .hidden {
+  display: none !important;
+} */
