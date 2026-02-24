@@ -1,160 +1,327 @@
 if (!customElements.get("aula-tipos-referencia")) {
-  const meta = {
+  const META = {
+    pagina: "variaveis-tipos/aulas/06",
     modulo: "Variáveis & Tipos", moduloHref: "?pagina=variaveis-tipos",
-    num: "06", title: "Tipos de referência",
-    duration: "12 min", badge: "Pro",
+    num: "06", title: "Tipos de referência", duration: "13 min", badge: "Pro",
     prev: "?pagina=variaveis-tipos/aulas/05", next: "?pagina=variaveis-tipos/aulas/07",
   };
+  const nav = (m) => `<nav class="aula-nav"><a href="${m.prev}" class="aula-nav__btn aula-nav__btn--prev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Aula anterior</a><a href="${m.next}" class="aula-nav__btn aula-nav__btn--next">Próxima aula<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></nav>`;
+
   class AulaTiposReferencia extends HTMLElement {
     connectedCallback() {
+      const done = window.Progress?.isDone(META.pagina);
       this.innerHTML = `
-        <main class="page-aula">
-          <div class="aula-wrapper">
+        <main class="page-aula"><div class="aula-wrapper">
+          <header class="aula-header">
+            <div class="aula-header__meta">
+              <a href="${META.moduloHref}" class="aula-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>${META.modulo}</a>
+              <span class="aula-header__num">Aula ${META.num}</span>
+            </div>
+            <h1 class="aula-header__title">${META.title}</h1>
+            <div class="aula-header__info">
+              <span class="aula-badge aula-badge--pro">${META.badge}</span>
+              <span class="aula-duration">${META.duration} de leitura</span>
+              <button class="btn-concluir ${done ? 'done' : ''}" id="btn-concluir"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${done ? 'Concluída' : 'Marcar como concluída'}</button>
+            </div>
+          </header>
+          <div class="aula-body">
 
-            <header class="aula-header">
-              <div class="aula-header__meta">
-                <a href="${meta.moduloHref}" class="aula-back">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-                  ${meta.modulo}
-                </a>
-                <span class="aula-header__num">Aula ${meta.num}</span>
+            <section class="aula-section">
+              <h2>Stack vs Heap</h2>
+              <p>A diferença entre primitivos e tipos de referência está em <strong>onde vivem na memória</strong>.</p>
+              <div class="aula-cards">
+                <div class="aula-card"><div class="aula-card__icon">📦</div><h3>Stack (pilha)</h3><p>Primitivos ficam aqui. Tamanho fixo conhecido, acesso rápido, copiados por <strong>valor</strong>.</p></div>
+                <div class="aula-card"><div class="aula-card__icon">🏗️</div><h3>Heap (monte)</h3><p>Objetos, arrays e funções ficam aqui. Tamanho dinâmico, acessados por <strong>referência</strong> (endereço de memória).</p></div>
               </div>
-              <h1 class="aula-header__title">${meta.title}</h1>
-              <div class="aula-header__info">
-                <span class="aula-badge aula-badge--pro">${meta.badge}</span>
-                <span class="aula-duration">${meta.duration} de leitura</span>
-              </div>
-            </header>
+              ${window.codeBlock(`// Primitivo — cópia por VALOR (stack)
+let a = 10;
+let b = a;
+b = 99;
+console.log(a); // 10 — não mudou
 
-            <div class="aula-body">
+// Objeto — cópia por REFERÊNCIA (heap)
+let obj1 = { x: 10 };
+let obj2 = obj1;    // obj2 aponta para o MESMO objeto
+obj2.x = 99;
+console.log(obj1.x); // 99 — mudou!`)}
+            </section>
 
-              <section class="aula-section">
-                <h2>Stack vs Heap</h2>
-                <p>A diferença entre primitivos e tipos de referência está em <strong>onde ficam na memória</strong>.</p>
-                <div class="aula-cards">
-                  <div class="aula-card">
-                    <div class="aula-card__icon">📦</div>
-                    <h3>Stack</h3>
-                    <p>Primitivos ficam aqui. Acesso rápido, tamanho fixo, copiados por <strong>valor</strong>.</p>
-                  </div>
-                  <div class="aula-card">
-                    <div class="aula-card__icon">🏗️</div>
-                    <h3>Heap</h3>
-                    <p>Objetos e arrays ficam aqui. Tamanho dinâmico, acessados por <strong>referência</strong>.</p>
-                  </div>
-                </div>
-              </section>
-
-              <section class="aula-section">
-                <h2>Objetos — cópia por referência</h2>
-                <p>Ao atribuir um objeto a outra variável, você copia a <strong>referência</strong> — ambas apontam para o mesmo lugar na memória.</p>
-                <pre class="aula-code"><code>const pessoa = { nome: "Ana" };
-const outra  = pessoa;       // copia a referência!
+            <section class="aula-section">
+              <h2>Objetos</h2>
+              <p>Um objeto é uma coleção de pares <strong>chave-valor</strong>. Quando você atribui um objeto a outra variável, você copia o <em>endereço de memória</em> — não o objeto em si.</p>
+              ${window.codeBlock(`const pessoa = { nome: "Ana", idade: 25 };
+const outra  = pessoa;       // mesma referência!
 
 outra.nome = "Bruno";
-console.log(pessoa.nome);    // "Bruno" — foi alterado!
+outra.email = "b@b.com";
 
-// Para clonar (cópia rasa)
+console.log(pessoa); // { nome: "Bruno", idade: 25, email: "b@b.com" }
+console.log(outra);  // { nome: "Bruno", idade: 25, email: "b@b.com" }
+console.log(pessoa === outra); // true — mesma referência
+
+// Para clonar (cópia RASA com spread)
 const clone = { ...pessoa };
 clone.nome = "Carlos";
-console.log(pessoa.nome);    // "Bruno" — não foi afetado</code></pre>
-              </section>
 
-              <section class="aula-section">
-                <h2>Arrays — mesma lógica</h2>
-                <pre class="aula-code"><code>const frutas  = ["maçã", "banana"];
-const copia   = frutas;      // referência!
-copia.push("uva");
-console.log(frutas);         // ["maçã", "banana", "uva"]
+console.log(pessoa.nome); // "Bruno" — não afetou
+console.log(clone.nome);  // "Carlos"`)}
+            </section>
+
+            <section class="aula-section">
+              <h2>Arrays</h2>
+              <p>Arrays são objetos especiais com índices numéricos. O mesmo comportamento de referência se aplica.</p>
+              ${window.codeBlock(`const frutas = ["maçã", "banana", "uva"];
+const copia  = frutas;     // referência!
+
+copia.push("manga");
+copia[0] = "pera";
+
+console.log(frutas); // ["pera", "banana", "uva", "manga"]
 
 // Para clonar
-const clone1 = [...frutas];
-const clone2 = frutas.slice();
+const clone1 = [...frutas];          // spread ✓
+const clone2 = frutas.slice();       // slice sem args ✓
+const clone3 = Array.from(frutas);   // Array.from ✓
+
+clone1.push("kiwi");
+console.log(frutas.length); // 4 — não afetou
 
 // Checar se é array
-Array.isArray(frutas);       // true
-typeof frutas;               // "object" — não use isso</code></pre>
-              </section>
+Array.isArray(frutas);   // true  ✓
+typeof frutas;           // "object" ✗ — não use para checar array`)}
+            </section>
 
-              <section class="aula-section">
-                <h2>Funções são objetos</h2>
-                <pre class="aula-code"><code>function somar(a, b) { return a + b; }
-typeof somar;                // "function"
-somar instanceof Object;     // true
+            <section class="aula-section">
+              <h2>Funções são objetos de primeira classe</h2>
+              <p>Em JavaScript, funções são objetos — podem ser atribuídas a variáveis, passadas como argumento e retornadas de outras funções.</p>
+              ${window.codeBlock(`function somar(a, b) { return a + b; }
 
-// Funções como valor (first-class)
+typeof somar;               // "function"
+somar instanceof Object;    // true
+
+// Atribuir a variável
 const fn = somar;
-fn(2, 3);                    // 5
+fn(2, 3);                   // 5
 
-// Como argumento (callback)
-[3,1,2].sort((a, b) => a - b); // [1, 2, 3]</code></pre>
-              </section>
+// Passar como argumento (callback)
+const numeros = [3, 1, 4, 1, 5];
+numeros.sort((a, b) => a - b); // [1, 1, 3, 4, 5]
 
-              <section class="aula-section">
-                <h2>Comparação por referência</h2>
-                <pre class="aula-code"><code>// Primitivos — compara valores
+// Retornar de outra função (higher-order function)
+function multiplicador(fator) {
+  return (numero) => numero * fator; // retorna função
+}
+
+const dobrar  = multiplicador(2);
+const triplicar = multiplicador(3);
+
+dobrar(5);     // 10
+triplicar(5);  // 15`)}
+            </section>
+
+            <section class="aula-section">
+              <h2>Comparação por referência</h2>
+              <p>Dois objetos com o mesmo conteúdo <strong>não são iguais</strong> — a comparação verifica se apontam para o mesmo endereço na memória.</p>
+              ${window.codeBlock(`// Primitivos — comparação por VALOR
 5 === 5;            // true
 "oi" === "oi";      // true
 
-// Objetos — compara endereços na memória
+// Objetos — comparação por REFERÊNCIA
 const a = { x: 1 };
 const b = { x: 1 };
 const c = a;
 
-a === b;  // false — objetos diferentes
-a === c;  // true  — mesma referência</code></pre>
-              </section>
+a === b; // false — conteúdo igual, mas objetos DIFERENTES na memória
+a === c; // true  — mesma referência!
 
-              <section class="aula-section">
-                <h2>Cópia rasa vs profunda</h2>
-                <p>O spread faz cópia <strong>rasa</strong> — objetos aninhados ainda são referências.</p>
-                <pre class="aula-code"><code>const original = {
+// Arrays
+[1, 2] === [1, 2]; // false — sempre!
+
+// Para comparar conteúdo, serialize:
+JSON.stringify(a) === JSON.stringify(b); // true (cuidado: não funciona com functions/undefined)`)}
+            </section>
+
+            <section class="aula-section">
+              <h2>Cópia rasa vs cópia profunda</h2>
+              <p>Spread e <code>Object.assign</code> fazem <strong>cópia rasa</strong> — propriedades com valores primitivos são copiadas, mas objetos aninhados ainda são referências compartilhadas.</p>
+              ${window.codeBlock(`const original = {
   nome: "Ana",
-  endereco: { cidade: "SP" }
+  endereco: { cidade: "SP", bairro: "Centro" }, // objeto aninhado
+  hobbies: ["leitura", "código"],               // array aninhado
 };
 
+// Cópia RASA
 const raso = { ...original };
-raso.nome = "Bruno";            // ✓ independente
-raso.endereco.cidade = "RJ";    // ✗ afeta original!
+raso.nome = "Bruno";             // ✓ independente — primitivo
+raso.endereco.cidade = "RJ";     // ✗ afeta original — ainda é referência!
+raso.hobbies.push("música");     // ✗ afeta original!
 
-console.log(original.endereco.cidade); // "RJ"
+console.log(original.nome);              // "Ana" ✓
+console.log(original.endereco.cidade);   // "RJ"  ✗
+console.log(original.hobbies);           // ["leitura", "código", "música"] ✗
 
-// Cópia profunda moderna
+// Cópia PROFUNDA — structuredClone (ES2022)
 const profundo = structuredClone(original);
 profundo.endereco.cidade = "MG";
-console.log(original.endereco.cidade); // "RJ" — agora seguro</code></pre>
-                <div class="aula-callout aula-callout--info">
-                  <strong>structuredClone()</strong> é o método moderno para cópia profunda — disponível em todos os browsers modernos desde 2022.
-                </div>
-              </section>
+profundo.hobbies.push("yoga");
 
-              <section class="aula-section">
-                <h2>Resumo</h2>
-                <ul class="aula-list">
-                  <li>Primitivos ficam na <strong>stack</strong>, copiados por valor.</li>
-                  <li>Objetos/arrays ficam na <strong>heap</strong>, copiados por referência.</li>
-                  <li>Dois objetos com mesmo conteúdo <strong>não são iguais</strong> com <code>===</code>.</li>
-                  <li>Spread <code>{ ...obj }</code> faz cópia <strong>rasa</strong>.</li>
-                  <li>Use <code>structuredClone()</code> para cópia <strong>profunda</strong>.</li>
-                </ul>
-              </section>
+console.log(original.endereco.cidade); // "RJ" ✓ — não afetou
+console.log(original.hobbies);         // ["leitura", "código", "música"] ✓`)}
+              <div class="aula-callout aula-callout--info">
+                <strong>structuredClone()</strong> é o método moderno para cópia profunda, disponível em todos os browsers desde 2022. Substitui o velho truque de <code>JSON.parse(JSON.stringify(obj))</code>, que perdia funções, <code>undefined</code> e <code>Date</code>.
+              </div>
+            </section>
 
-            </div>
-
-            <nav class="aula-nav">
-              <a href="${meta.prev}" class="aula-nav__btn aula-nav__btn--prev">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-                Aula anterior
-              </a>
-              <a href="${meta.next}" class="aula-nav__btn aula-nav__btn--next">
-                Próxima aula
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
-            </nav>
+            <section class="aula-section">
+              <h2>Resumo</h2>
+              <ul class="aula-list">
+                <li>Primitivos ficam na <strong>stack</strong>, copiados por valor — independentes.</li>
+                <li>Objetos/arrays ficam na <strong>heap</strong>, copiados por referência — compartilham dados.</li>
+                <li>Dois objetos com mesmo conteúdo <strong>não são iguais</strong> com <code>===</code>.</li>
+                <li>Use <code>Array.isArray()</code> para checar arrays — <code>typeof []</code> retorna <code>"object"</code>.</li>
+                <li>Spread faz cópia <strong>rasa</strong> — objetos aninhados ainda são referências.</li>
+                <li>Use <code>structuredClone()</code> para cópia <strong>profunda</strong> segura.</li>
+              </ul>
+            </section>
 
           </div>
-        </main>`;
+          ${nav(META)}
+        </div></main>`;
+
+      document.getElementById("btn-concluir")?.addEventListener("click", function () {
+        const isDone = window.Progress?.isDone(META.pagina);
+        isDone ? window.Progress?.uncomplete(META.pagina) : window.Progress?.complete(META.pagina);
+        this.classList.toggle("done", !isDone);
+        this.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${!isDone ? "Concluída" : "Marcar como concluída"}`;
+      });
     }
   }
+  
+
+  /* =========================================================
+   CODE BLOCK HIGHLIGHTER
+   simples, leve e sem bibliotecas
+========================================================= */
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  window.codeBlock = function (code) {
+
+    // evita que o navegador interprete HTML
+    code = escapeHtml(code);
+
+    // armazenamento temporário
+    const store = [];
+    let i = 0;
+
+    function protect(regex, cssClass) {
+      code = code.replace(regex, match => {
+        const id = `___PLACE_${i++}___`;
+
+        store.push({
+          id,
+          html: `<span class="${cssClass}">${match}</span>`
+        });
+
+        return id;
+      });
+    }
+
+    /* =========================================================
+       PROTEGER PARTES SENSÍVEIS
+       (strings e comentários primeiro)
+    ========================================================= */
+
+    protect(/\/\/.*/g, "hl-comment");
+
+    protect(/(".*?"|'.*?'|`.*?`)/g, "hl-string");
+
+
+    /* =========================================================
+       KEYWORDS
+    ========================================================= */
+
+    code = code.replace(
+      /\b(var|let|const|if|else|for|while|return|function|class|new|switch|case|break|continue)\b/g,
+      '<span class="hl-keyword">$1</span>'
+    );
+
+
+    /* =========================================================
+       NÚMEROS
+    ========================================================= */
+
+    code = code.replace(
+      /\b(\d+)\b/g,
+      '<span class="hl-number">$1</span>'
+    );
+
+
+    /* =========================================================
+       CONSOLE
+    ========================================================= */
+
+    code = code.replace(
+      /\b(console)\b/g,
+      '<span class="hl-fn">$1</span>'
+    );
+
+
+    /* =========================================================
+       PROPRIEDADES
+    ========================================================= */
+
+    code = code.replace(
+      /\.([a-zA-Z_]+)/g,
+      '.<span class="hl-prop">$1</span>'
+    );
+
+
+    /* =========================================================
+       RESTAURAR PARTES PROTEGIDAS
+    ========================================================= */
+
+    store.forEach(item => {
+      code = code.replace(item.id, item.html);
+    });
+
+
+    /* =========================================================
+       RETORNAR BLOCO FINAL
+    ========================================================= */
+
+    /* =========================================================
+    RETORNAR BLOCO FINAL COM BOTÃO DE COPIAR
+ ========================================================= */
+    return `
+<div class="code-container" style="position: relative;">
+  <button class="btn-copy" onclick="copyCode(this)" title="Copiar código">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+  </button>
+  <pre class="aula-code"><code>${code}</code></pre>
+</div>
+`;
+  };
+  window.copyCode = function (btn) {
+    // Busca o texto dentro do <code> que está no mesmo container
+    const code = btn.parentElement.querySelector('code').innerText;
+
+    navigator.clipboard.writeText(code).then(() => {
+      const originalInner = btn.innerHTML;
+      btn.innerHTML = '<span>Copiado!</span>';
+      btn.classList.add('copied');
+
+      setTimeout(() => {
+        btn.innerHTML = originalInner;
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  };
+  
   customElements.define("aula-tipos-referencia", AulaTiposReferencia);
 }

@@ -1,22 +1,45 @@
 /* =========================================================
    SPA — Roteador de páginas
-
-   O index.html da raiz É a home (boas-vindas).
-   O #app começa vazio e recebe as páginas ao navegar.
-   Ao voltar para a home (logo ou URL sem ?pagina=),
-   o #app é limpo e o conteúdo fixo do index.html fica visível.
 ========================================================= */
 
 let app = null;
 let paginaAtual = null;
 
-/* ── Captura o #app ── */
 const capturarApp = () => {
   app = document.getElementById("app");
 };
 
-/* ── CSS compartilhado das aulas (carrega uma vez) ── */
-const garantirCSSCompartilhado = () => {
+/* =========================================================
+   RECURSOS COMPARTILHADOS
+   utils.js deve ser carregado ANTES do script da página.
+   Usamos Promise para garantir a ordem.
+========================================================= */
+let utilsCarregado = false;
+let utilsPromise = null;
+
+const garantirUtils = () => {
+  // Já carregado
+  if (utilsCarregado) return Promise.resolve();
+  // Carregamento em andamento — devolve a mesma promise
+  if (utilsPromise) return utilsPromise;
+
+  utilsPromise = new Promise((resolve) => {
+    if (document.getElementById("js-shared-utils")) {
+      utilsCarregado = true;
+      return resolve();
+    }
+    const script = document.createElement("script");
+    script.src = "/partials/shared/utils.js";
+    script.id = "js-shared-utils";
+    script.onload = () => { utilsCarregado = true; resolve(); };
+    script.onerror = () => resolve(); // falha silenciosa, não trava o SPA
+    document.body.appendChild(script);
+  });
+
+  return utilsPromise;
+};
+
+const garantirCSS = () => {
   if (document.getElementById("css-shared-aula")) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
@@ -25,41 +48,43 @@ const garantirCSSCompartilhado = () => {
   document.head.appendChild(link);
 };
 
-/* ── Carrega CSS da página dinamicamente ── */
+/* ── CSS da página (módulo) ── */
 const carregarCSS = (pagina) => {
   const id = "css-pagina";
   document.getElementById(id)?.remove();
+
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = `/partials/pages/${pagina}/index.css`;
   link.id = id;
-  // Ignora silenciosamente se não existir
-  link.onerror = () => link.remove();
+  link.onerror = () => link.remove(); // não existe → remove silenciosamente
   document.head.appendChild(link);
 };
 
-/* ── Remove CSS da página ao voltar para home ── */
 const removerCSS = () => {
   document.getElementById("css-pagina")?.remove();
 };
 
-/* ── Carrega JS da página dinamicamente ── */
+/* ── JS da página — só injeta DEPOIS que utils.js estiver pronto ── */
 const carregarScript = (pagina) => {
   const id = "script-pagina";
   document.getElementById(id)?.remove();
-  const script = document.createElement("script");
-  script.src = `/partials/pages/${pagina}/index.js`;
-  script.id = id;
-  script.onerror = () => script.remove();
-  document.body.appendChild(script);
+
+  return garantirUtils().then(() => {
+    const script = document.createElement("script");
+    script.src = `/partials/pages/${pagina}/index.js`;
+    script.id = id;
+    script.onerror = () => script.remove();
+    document.body.appendChild(script);
+  });
 };
 
 /* ── Busca e renderiza a página no #app ── */
 const carregarPagina = (pagina) => {
   if (!app) return;
 
-  // Páginas de aula precisam do CSS compartilhado
-  if (pagina.includes("/aulas/")) garantirCSSCompartilhado();
+  const ehAula = pagina.includes("/aulas/");
+  if (ehAula) garantirCSS();
 
   const url = `/partials/pages/${pagina}/index.html`;
 
@@ -72,14 +97,15 @@ const carregarPagina = (pagina) => {
       app.innerHTML = html;
       window.scrollTo(0, 0);
 
-      // Título amigável: "variaveis-tipos/aulas/02" → "variaveis tipos aulas 02"
       const titulo = pagina.split("/").pop().replace(/-/g, " ");
       document.title = `JS — ${titulo}`;
 
-      // Esconde o conteúdo fixo da home
       document.getElementById("home-content")?.style.setProperty("display", "none");
 
-      carregarCSS(pagina);
+      // CSS do módulo (só para páginas de lista de aulas, não para as aulas em si)
+      if (!ehAula) carregarCSS(pagina);
+
+      // JS da página — garante utils antes
       carregarScript(pagina);
     })
     .catch((err) => {
@@ -94,7 +120,7 @@ const carregarPagina = (pagina) => {
     });
 };
 
-/* ── Volta para a home ── */
+/* ── Home ── */
 const mostrarHome = () => {
   if (!app) return;
   app.innerHTML = "";
@@ -105,7 +131,6 @@ const mostrarHome = () => {
   document.getElementById("home-content")?.style.removeProperty("display");
 };
 
-/* ── Navega para uma página SPA ── */
 const navegarPagina = (pagina) => {
   if (pagina === paginaAtual) return;
   paginaAtual = pagina;
@@ -113,7 +138,6 @@ const navegarPagina = (pagina) => {
   carregarPagina(pagina);
 };
 
-/* ── Navega para um hash na home (#secao) ── */
 const navegarHash = (hash) => {
   mostrarHome();
   history.pushState(null, "", "/#" + hash);
@@ -122,7 +146,7 @@ const navegarHash = (hash) => {
   }, 50);
 };
 
-/* ── Intercepta todos os cliques em links ── */
+/* ── Intercepta cliques ── */
 document.addEventListener("click", (e) => {
   const link = e.target.closest("a[href]");
   if (!link) return;
@@ -130,7 +154,6 @@ document.addEventListener("click", (e) => {
   const href = link.getAttribute("href");
   if (!href || href.startsWith("http") || href.startsWith("mailto")) return;
 
-  // Logo / link para a raiz → home
   if (href === "/" || href === "/index.html" || href === "./") {
     e.preventDefault();
     mostrarHome();
@@ -138,14 +161,12 @@ document.addEventListener("click", (e) => {
     return;
   }
 
-  // Hash puro (#secao)
   if (href.startsWith("#")) {
     e.preventDefault();
     navegarHash(href.slice(1));
     return;
   }
 
-  // Rota SPA (?pagina=)
   if (href.includes("?pagina=")) {
     e.preventDefault();
     const pagina = new URL(href, location.origin).searchParams.get("pagina");
@@ -154,7 +175,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-/* ── Carrega o estado correto conforme a URL atual ── */
+/* ── Estado inicial ── */
 const carregarEstado = () => {
   if (!app) capturarApp();
 
@@ -165,15 +186,13 @@ const carregarEstado = () => {
     paginaAtual = pagina;
     carregarPagina(pagina);
   } else if (location.hash) {
-    const hash = location.hash.slice(1);
     setTimeout(() => {
-      document.getElementById(hash)?.scrollIntoView();
+      document.getElementById(location.hash.slice(1))?.scrollIntoView();
     }, 100);
   } else {
     mostrarHome();
   }
 };
 
-/* ── Botões voltar/avançar do navegador ── */
 window.addEventListener("popstate", carregarEstado);
 window.addEventListener("DOMContentLoaded", carregarEstado);

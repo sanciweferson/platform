@@ -1,12 +1,8 @@
 /* =========================================================
-   AULA — CSS COMPARTILHADO
-   Usa as variáveis de root.css
-   Importar em cada módulo: @import "../../../shared/aula.css";
+   AULA — CSS COMPARTILHADO  (usa variáveis de root.css)
 ========================================================= */
 
-/* =========================================================
-   LAYOUT
-========================================================= */
+/* ── Layout ── */
 .page-aula {
   padding-block: 2.5rem 5rem;
   padding-inline: 1.25rem;
@@ -20,13 +16,11 @@
   gap: 2.5rem;
 }
 
-/* =========================================================
-   HEADER
-========================================================= */
+/* ── Header ── */
 .aula-header {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: .875rem;
 }
 
 .aula-header__meta {
@@ -34,23 +28,21 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: .5rem;
 }
 
 .aula-back {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  font-size: 0.8125rem;
+  gap: .375rem;
+  font-size: .8125rem;
   font-weight: 500;
   color: var(--muted-foreground);
   text-decoration: none;
   border-radius: var(--radius);
-  padding: 0.25rem 0.5rem;
-  margin-left: -0.5rem;
-  transition:
-    color 0.2s ease,
-    background-color 0.2s ease;
+  padding: .25rem .5rem;
+  margin-left: -.5rem;
+  transition: color .2s, background-color .2s;
 }
 
 .aula-back:hover {
@@ -59,9 +51,9 @@
 }
 
 .aula-header__num {
-  font-size: 0.75rem;
+  font-size: .75rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--muted-foreground);
 }
@@ -69,7 +61,7 @@
 .aula-header__title {
   font-size: clamp(1.75rem, 5vw, 2.75rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -.03em;
   line-height: 1.1;
   color: var(--foreground);
 }
@@ -77,34 +69,32 @@
 .aula-header__info {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: .75rem;
 }
 
 .aula-duration {
-  font-size: 0.8125rem;
+  font-size: .8125rem;
   color: var(--muted-foreground);
 }
 
-/* =========================================================
-   BADGES
-========================================================= */
+/* ── Badges ── */
 .aula-badge {
-  font-size: 0.625rem;
+  font-size: .625rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: .06em;
   text-transform: uppercase;
-  padding: 0.2rem 0.6rem;
+  padding: .2rem .6rem;
   border-radius: 999px;
 }
 
 .aula-badge--free {
-  background-color: oklch(from var(--primary) l c h / 15%);
-  color: var(--primary);
+  background-color: oklch(0.9 0.1 145);
+  color: oklch(0.28 0.12 145);
 }
 
 [data-theme="dark"] .aula-badge--free {
-  background-color: oklch(from var(--primary) l c h / 20%);
-  color: oklch(from var(--primary) calc(l + 0.2) c h);
+  background-color: oklch(0.28 0.1 145);
+  color: oklch(0.88 0.1 145);
 }
 
 .aula-badge--pro {
@@ -112,9 +102,71 @@
   color: var(--muted-foreground);
 }
 
-/* =========================================================
-   CORPO
-========================================================= */
+/* ── Barra de progresso da aula ── */
+.aula-progress-bar {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem 1rem;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.aula-progress-bar__track {
+  flex: 1;
+  height: 4px;
+  background-color: var(--muted);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.aula-progress-bar__fill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 999px;
+  transition: width .4s ease;
+}
+
+.aula-progress-bar__label {
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+
+/* ── Botão concluir ── */
+.btn-concluir {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem 1.25rem;
+  font-size: .875rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background-color: var(--card);
+  color: var(--foreground);
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.btn-concluir:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-concluir.done {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+.btn-concluir.done:hover {
+  opacity: .85;
+}
+
+/* ── Corpo ── */
 .aula-body {
   display: flex;
   flex-direction: column;
@@ -127,24 +179,22 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
- 
 }
 
 .aula-section h2 {
   font-size: 1.25rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -.02em;
   color: var(--foreground);
 }
 
 .aula-section p {
-  font-size: 0.9375rem;
+  font-size: .9375rem;
   color: var(--foreground);
   line-height: 1.8;
 }
 
 .aula-section p strong {
-  color: var(--foreground);
   font-weight: 600;
 }
 
@@ -153,59 +203,85 @@
   font-style: italic;
 }
 
-.aula-list{
-
-}
-/* =========================================================
-   INLINE CODE
-========================================================= */
+/* ── Inline code ── */
 .aula-section code,
 .aula-list code,
 .aula-table code {
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
-  font-size: 0.85em;
+  font-size: .85em;
   background-color: var(--muted);
   color: var(--foreground);
-  /* padding: 0.15em 0.4em; */
-  border-radius: 0.25rem;
+  padding: .15em .4em;
+  border-radius: .25rem;
   border: 1px solid var(--border);
-
 }
 
 /* =========================================================
-   BLOCO DE CÓDIGO
+   SYNTAX HIGHLIGHT — adapta ao tema
 ========================================================= */
 .aula-code {
-  background-color: oklch(0.13 0.008 285);
+  background-color: oklch(0.14 0.01 260);
   border: 1px solid oklch(1 0 0 / 8%);
   border-radius: var(--radius);
-  padding: 1.25rem 1.25rem;
-  /* padding menor */
+  padding: 1.25rem 1.5rem;
   overflow-x: auto;
   margin: 0;
-
-  max-width: 100%;
-  box-sizing: border-box;
 }
 
 [data-theme="dark"] .aula-code {
-  background-color: oklch(0.11 0.006 285);
+  background-color: oklch(0.12 0.008 260);
   border-color: oklch(1 0 0 / 10%);
 }
 
 .aula-code code {
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
-  font-size: 0.875rem;
-  color: oklch(0.88 0.06 130);
+  font-size: .875rem;
+  color: oklch(0.9 0.02 260);
   background: none;
   padding: 0;
   border: none;
   border-radius: 0;
-
+  /* white-space: pre; */
   white-space: pre-wrap;
-     word-break: break-word;
-  line-height: 1.7;
+  word-break: break-word;
+  line-height: 1.75;
 }
+
+/* Tokens */
+.hl-keyword {
+  color: oklch(0.72 0.2 290);
+}
+
+/* roxo — var/let/const/function */
+.hl-string {
+  color: oklch(0.78 0.15 140);
+}
+
+/* verde — "strings" */
+.hl-comment {
+  color: oklch(0.58 0.02 260);
+  font-style: italic;
+}
+
+/* cinza */
+.hl-number {
+  color: oklch(0.78 0.18 55);
+}
+
+/* laranja — números */
+.hl-fn {
+  color: oklch(0.78 0.15 200);
+}
+
+/* azul ciano — funções */
+.hl-prop {
+  color: oklch(0.82 0.08 220);
+}
+
+/* azul claro — .props */
+
+/* Light mode: fundo claro mas mantém o estilo escuro do bloco (VSCode-like) */
+/* O bloco de código é sempre escuro — só borda muda */
 
 /* =========================================================
    CALLOUTS
@@ -213,7 +289,7 @@
 .aula-callout {
   padding: 1rem 1.25rem;
   border-radius: var(--radius);
-  font-size: 0.9rem;
+  font-size: .9rem;
   line-height: 1.7;
   border-left: 3px solid;
 }
@@ -222,7 +298,6 @@
   font-weight: 600;
 }
 
-/* Info — azul */
 .aula-callout--info {
   background-color: oklch(from var(--primary) l c h / 8%);
   border-color: var(--primary);
@@ -233,7 +308,6 @@
   background-color: oklch(from var(--primary) l c h / 12%);
 }
 
-/* Warning — âmbar */
 .aula-callout--warning {
   background-color: oklch(0.96 0.04 85);
   border-color: oklch(0.72 0.15 80);
@@ -245,27 +319,35 @@
   border-color: oklch(0.65 0.14 80);
 }
 
+.aula-callout--tip {
+  background-color: oklch(0.95 0.05 145);
+  border-color: oklch(0.55 0.15 145);
+  color: var(--foreground);
+}
+
+[data-theme="dark"] .aula-callout--tip {
+  background-color: oklch(0.22 0.05 145);
+  border-color: oklch(0.55 0.15 145);
+}
+
 /* =========================================================
    CARDS
 ========================================================= */
 .aula-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-
+  gap: .75rem;
 }
 
 .aula-card {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  gap: .5rem;
   padding: 1.125rem 1rem;
   background-color: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: border-color 0.2s ease;
-
+  transition: border-color .2s;
 }
 
 .aula-card:hover {
@@ -278,13 +360,13 @@
 }
 
 .aula-card h3 {
-  font-size: 0.9375rem;
+  font-size: .9375rem;
   font-weight: 600;
   color: var(--foreground);
 }
 
 .aula-card p {
-  font-size: 0.8125rem !important;
+  font-size: .8125rem !important;
   color: var(--muted-foreground) !important;
   line-height: 1.6 !important;
 }
@@ -295,15 +377,16 @@
 .aula-list {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: .625rem;
   padding-left: 0;
   list-style: none;
 }
 
 .aula-list li {
-
-  gap: 0.625rem;
-  font-size: 0.9375rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .625rem;
+  font-size: .9375rem;
   color: var(--foreground);
   line-height: 1.7;
 }
@@ -312,7 +395,7 @@
   content: "–";
   color: var(--muted-foreground);
   flex-shrink: 0;
-  margin-top: 0.1rem;
+  margin-top: .1rem;
 }
 
 /* =========================================================
@@ -327,12 +410,12 @@
 .aula-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: .875rem;
 }
 
 .aula-table th,
 .aula-table td {
-  padding: 0.75rem 1rem;
+  padding: .75rem 1rem;
   text-align: left;
   border-bottom: 1px solid var(--border);
 }
@@ -341,8 +424,8 @@
   font-weight: 600;
   background-color: var(--muted);
   color: var(--muted-foreground);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
+  font-size: .75rem;
+  letter-spacing: .04em;
   text-transform: uppercase;
 }
 
@@ -373,23 +456,18 @@
 .aula-nav__btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.125rem;
-  font-size: 0.875rem;
+  gap: .5rem;
+  padding: .6rem 1.125rem;
+  font-size: .875rem;
   font-weight: 500;
   text-decoration: none;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--foreground);
   background-color: var(--card);
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.15s ease;
+  transition: background-color .2s, border-color .2s, transform .15s;
 }
-.aula-section{
 
-}
 .aula-nav__btn:hover {
   background-color: var(--accent);
   border-color: var(--ring);
@@ -404,7 +482,7 @@
 }
 
 .aula-nav__btn--next:hover {
-  opacity: 0.88;
+  opacity: .88;
   background-color: var(--primary);
   border-color: var(--primary);
   transform: translateY(-1px);
@@ -422,10 +500,42 @@
   .aula-cards {
     grid-template-columns: repeat(3, 1fr);
   }
+}
 
-  .aula-cards:has(.aula-card:only-child),
-  .aula-cards:has(.aula-card:nth-child(2):last-child) {
-    grid-template-columns: repeat(2, 1fr);
-   
-  }
+
+.code-container {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.btn-copy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #fff;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  z-index: 10;
+}
+
+.btn-copy:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-copy.copied {
+  background: #28a745;
+  border-color: #28a745;
+}
+
+/* Garante que o pre não esconda o botão */
+.aula-code {
+  padding-top: 40px !important;
 }

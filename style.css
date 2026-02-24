@@ -298,3 +298,162 @@ body>[role="main"],
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+
+
+/* =========================================================
+   HOME PROGRESS WIDGET
+   Adicionar ao style.css (ou importar)
+========================================================= */
+
+.home-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 3rem;
+}
+
+/* ── Header ── */
+.home-progress__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-progress__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: .25rem;
+}
+
+.home-progress__subtitle {
+  font-size: .8125rem;
+  color: var(--muted-foreground);
+}
+
+.home-progress__subtitle strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+/* ── Botão resetar ── */
+.home-progress__reset {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  padding: .375rem .75rem;
+  font-size: .75rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color .2s, border-color .2s, background-color .2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.home-progress__reset:hover {
+  color: var(--foreground);
+  border-color: var(--ring);
+  background-color: var(--accent);
+}
+
+/* ── Barra global ── */
+.home-progress__global {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.home-progress__track {
+  flex: 1;
+  height: 6px;
+  background-color: var(--muted);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.home-progress__fill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 999px;
+  transition: width .5s cubic-bezier(.4, 0, .2, 1);
+}
+
+.home-progress__pct {
+  font-size: .8125rem;
+  font-weight: 700;
+  color: var(--primary);
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+/* ── Módulos ── */
+.home-progress__modules {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.progress-module {
+  display: flex;
+  flex-direction: column;
+  gap: .375rem;
+  padding: .625rem .875rem;
+  border-radius: calc(var(--radius) - 2px);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background-color .2s, border-color .2s;
+}
+
+.progress-module:not(.progress-module--locked):hover {
+  background-color: var(--accent);
+  border-color: var(--border);
+}
+
+.progress-module--locked {
+  opacity: .45;
+  cursor: default;
+  pointer-events: none;
+}
+
+.progress-module__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.progress-module__label {
+  font-size: .8125rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.progress-module__count {
+  font-size: .75rem;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+
+.progress-module__track {
+  height: 3px;
+  background-color: var(--muted);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-module__fill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 999px;
+  transition: width .5s cubic-bezier(.4, 0, .2, 1);
+}
