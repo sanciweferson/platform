@@ -1,12 +1,35 @@
 /* =========================================================
-   HOME PROGRESS WIDGET
-   Adicionar ao style.css (ou importar)
+   HOME PROGRESS WIDGET — CSS completo
+   Usa variáveis de root.css
 ========================================================= */
 
+/* ── Cores por módulo ── */
+:root {
+  --mod-1: oklch(0.65 0.20 145);
+  /* verde      — Fundamentos        */
+  --mod-2: oklch(0.65 0.22 290);
+  /* roxo       — Variáveis & Tipos  */
+  --mod-3: oklch(0.65 0.20 55);
+  /* laranja    — Lógica & Fluxo     */
+  --mod-4: oklch(0.62 0.20 220);
+  /* azul       — Funções            */
+  --mod-5: oklch(0.63 0.22 10);
+  /* vermelho   — Objetos            */
+  --mod-6: oklch(0.65 0.18 190);
+  /* ciano      — DOM                */
+  --mod-7: oklch(0.65 0.20 330);
+  /* rosa       — Assíncrono         */
+  --mod-8: oklch(0.62 0.16 260);
+  /* índigo     — OO                 */
+}
+
+/* =========================================================
+   CONTAINER PRINCIPAL
+========================================================= */
 .home-progress {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
   padding: 1.5rem;
   background-color: var(--card);
   border: 1px solid var(--border);
@@ -14,7 +37,9 @@
   margin-bottom: 3rem;
 }
 
-/* ── Header ── */
+/* =========================================================
+   HEADER
+========================================================= */
 .home-progress__header {
   display: flex;
   align-items: flex-start;
@@ -26,17 +51,27 @@
   font-size: 1rem;
   font-weight: 700;
   color: var(--foreground);
-  margin-bottom: .25rem;
+  margin-bottom: .3rem;
 }
 
 .home-progress__subtitle {
   font-size: .8125rem;
   color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: .375rem;
+  flex-wrap: wrap;
 }
 
 .home-progress__subtitle strong {
   color: var(--foreground);
   font-weight: 600;
+}
+
+.home-progress__tempo {
+  color: var(--muted-foreground);
+  font-size: .75rem;
+  opacity: .75;
 }
 
 /* ── Botão resetar ── */
@@ -58,12 +93,14 @@
 }
 
 .home-progress__reset:hover {
-  color: var(--foreground);
-  border-color: var(--ring);
-  background-color: var(--accent);
+  color: oklch(0.6 0.2 15);
+  border-color: oklch(0.6 0.2 15);
+  background-color: oklch(0.6 0.2 15 / .08);
 }
 
-/* ── Barra global ── */
+/* =========================================================
+   BARRA GLOBAL
+========================================================= */
 .home-progress__global {
   display: flex;
   align-items: center;
@@ -72,7 +109,7 @@
 
 .home-progress__track {
   flex: 1;
-  height: 6px;
+  height: 8px;
   background-color: var(--muted);
   border-radius: 999px;
   overflow: hidden;
@@ -80,24 +117,160 @@
 
 .home-progress__fill {
   height: 100%;
-  background-color: var(--primary);
+  background: linear-gradient(90deg, var(--mod-1), var(--mod-2));
   border-radius: 999px;
-  transition: width .5s cubic-bezier(.4, 0, .2, 1);
+  transition: width .6s cubic-bezier(.4, 0, .2, 1);
 }
 
 .home-progress__pct {
-  font-size: .8125rem;
-  font-weight: 700;
+  font-size: .875rem;
+  font-weight: 800;
   color: var(--primary);
-  min-width: 2.5rem;
+  min-width: 2.75rem;
   text-align: right;
 }
 
-/* ── Módulos ── */
+/* =========================================================
+   STATS — streak + meta + configuração
+========================================================= */
+.home-progress__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .625rem;
+}
+
+.progress-stat {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+  padding: .75rem .875rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  transition: border-color .2s, background-color .2s;
+  min-width: 0;
+}
+
+.progress-stat--meta-edit:hover {
+  border-color: var(--ring);
+  background-color: var(--accent);
+}
+
+.progress-stat__icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.progress-stat__info {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.progress-stat__value {
+  font-size: .8125rem;
+  font-weight: 700;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress-stat__label {
+  font-size: .6875rem;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+
+.progress-stat__mini-track {
+  height: 3px;
+  background-color: var(--muted);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: .375rem;
+  width: 100%;
+}
+
+.progress-stat__mini-fill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 999px;
+  transition: width .4s ease;
+}
+
+/* =========================================================
+   CONQUISTAS
+========================================================= */
+.home-progress__conquistas {
+  display: flex;
+  flex-direction: column;
+  gap: .625rem;
+}
+
+.home-progress__conquistas-label {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.conquistas-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.conquista {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  padding: .35rem .75rem;
+  background: linear-gradient(135deg,
+      oklch(0.97 0.04 80),
+      oklch(0.95 0.06 60));
+  border: 1px solid oklch(0.8 0.12 70);
+  border-radius: 999px;
+  transition: transform .2s, box-shadow .2s;
+}
+
+[data-theme="dark"] .conquista {
+  background: linear-gradient(135deg,
+      oklch(0.28 0.06 80),
+      oklch(0.25 0.08 60));
+  border-color: oklch(0.5 0.12 70);
+}
+
+.conquista:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px oklch(0.7 0.15 70 / .3);
+}
+
+.conquista__icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.conquista__label {
+  font-size: .75rem;
+  font-weight: 600;
+  color: oklch(0.4 0.1 60);
+}
+
+[data-theme="dark"] .conquista__label {
+  color: oklch(0.85 0.1 70);
+}
+
+/* =========================================================
+   MÓDULOS — grid 2 colunas no desktop
+========================================================= */
 .home-progress__modules {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: .375rem;
 }
 
 .progress-module {
@@ -108,20 +281,33 @@
   border-radius: calc(var(--radius) - 2px);
   text-decoration: none;
   border: 1px solid transparent;
-  transition: background-color .2s, border-color .2s;
+  transition: background-color .2s, border-color .2s, transform .15s;
+  position: relative;
 }
 
 .progress-module:not(.progress-module--locked):hover {
   background-color: var(--accent);
   border-color: var(--border);
+  transform: translateX(2px);
+}
+
+/* Módulo 100% concluído */
+.progress-module--done {
+  background-color: oklch(from var(--primary) l c h / .05);
+  border-color: oklch(from var(--primary) l c h / .2) !important;
+}
+
+[data-theme="dark"] .progress-module--done {
+  background-color: oklch(from var(--primary) l c h / .08);
 }
 
 .progress-module--locked {
-  opacity: .45;
+  opacity: .4;
   cursor: default;
   pointer-events: none;
 }
 
+/* ── Info row ── */
 .progress-module__info {
   display: flex;
   align-items: center;
@@ -135,12 +321,39 @@
   color: var(--foreground);
 }
 
+.progress-module__right {
+  display: flex;
+  align-items: center;
+  gap: .375rem;
+  flex-shrink: 0;
+}
+
+/* ✓ ícone de completo */
+.progress-module__check {
+  color: var(--primary);
+  flex-shrink: 0;
+  animation: pop-in .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0) rotate(-20deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
 .progress-module__count {
   font-size: .75rem;
   color: var(--muted-foreground);
   white-space: nowrap;
 }
 
+/* Barra de módulo */
 .progress-module__track {
   height: 3px;
   background-color: var(--muted);
@@ -150,7 +363,245 @@
 
 .progress-module__fill {
   height: 100%;
-  background-color: var(--primary);
   border-radius: 999px;
   transition: width .5s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+@media (min-width: 640px) {
+  .home-progress__modules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .375rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .home-progress__stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .home-progress__stats .progress-stat:last-child {
+    grid-column: span 2;
+  }
+}
+
+/* =========================================================
+   MODAL SYSTEM
+========================================================= */
+
+/* ── Overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: oklch(0 0 0 / .55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  z-index: 9000;
+  /* Animação de entrada */
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none;
+}
+
+.modal-overlay--visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-overlay--visible .modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* ── Caixa do modal ── */
+.modal {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  padding: 2rem;
+  width: 100%;
+  max-width: 22rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .875rem;
+  text-align: center;
+  box-shadow:
+    0 0 0 1px oklch(0 0 0 / .04),
+    0 8px 24px oklch(0 0 0 / .18),
+    0 32px 64px oklch(0 0 0 / .12);
+  /* Animação */
+  transform: translateY(12px) scale(.97);
+  opacity: 0;
+  transition: transform .25s cubic-bezier(.175, .885, .32, 1.1), opacity .2s ease;
+}
+
+/* ── Ícone ── */
+.modal__icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.375rem;
+  flex-shrink: 0;
+}
+
+.modal__icon--danger {
+  background-color: oklch(0.95 0.06 15);
+}
+
+.modal__icon--warn {
+  background-color: oklch(0.96 0.06 80);
+}
+
+.modal__icon--primary {
+  background-color: oklch(from var(--primary) l c h / .12);
+}
+
+[data-theme="dark"] .modal__icon--danger {
+  background-color: oklch(0.28 0.08 15);
+}
+
+[data-theme="dark"] .modal__icon--warn {
+  background-color: oklch(0.28 0.06 80);
+}
+
+[data-theme="dark"] .modal__icon--primary {
+  background-color: oklch(from var(--primary) l c h / .18);
+}
+
+/* ── Textos ── */
+.modal__title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -.02em;
+  margin: 0;
+}
+
+.modal__message {
+  font-size: .875rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Picker numérico ── */
+.modal__picker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: .25rem 0;
+}
+
+.modal__picker-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s, transform .1s;
+  flex-shrink: 0;
+}
+
+.modal__picker-btn:hover:not(:disabled) {
+  background-color: var(--accent);
+  border-color: var(--ring);
+}
+
+.modal__picker-btn:active:not(:disabled) {
+  transform: scale(.92);
+}
+
+.modal__picker-btn:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+}
+
+.modal__picker-val {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -.04em;
+  min-width: 2.5rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.modal__picker-hint {
+  font-size: .75rem;
+  color: var(--muted-foreground);
+  margin: -.25rem 0 .25rem;
+}
+
+/* ── Botões ── */
+.modal__actions {
+  display: flex;
+  gap: .625rem;
+  width: 100%;
+  margin-top: .25rem;
+}
+
+.modal__btn {
+  flex: 1;
+  padding: .6rem 1rem;
+  font-size: .875rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: opacity .15s, transform .1s, background-color .15s;
+  font-family: inherit;
+}
+
+.modal__btn:active {
+  transform: scale(.97);
+}
+
+/* Cancelar */
+.modal__btn--cancel {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  border-color: var(--border);
+}
+
+.modal__btn--cancel:hover {
+  background-color: var(--accent);
+  color: var(--foreground);
+}
+
+/* Confirmar padrão */
+.modal__btn--primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+.modal__btn--primary:hover {
+  opacity: .88;
+}
+
+/* Confirmar destrutivo */
+.modal__btn--danger {
+  background-color: oklch(0.55 0.22 15);
+  color: #fff;
+  border-color: oklch(0.55 0.22 15);
+}
+
+.modal__btn--danger:hover {
+  opacity: .88;
 }

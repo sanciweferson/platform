@@ -470,6 +470,11 @@ justify-content: space-between;
   header-bar nav>ul>li:not(.logo) {
     display: list-item;
   }
+    header-bar header {
+    padding: 3rem 0.5rem;
+   
+    }
+  
   nav{
     max-width: 1280px;
     margin: 0 auto;

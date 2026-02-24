@@ -1,257 +1,195 @@
-if (!customElements.get("aula-coercao-tipos")) {
+if (!customElements.get("aula-coercao")) {
   const META = {
     pagina: "variaveis-tipos/aulas/07",
-    modulo: "Variáveis & Tipos",
-    moduloHref: "?pagina=variaveis-tipos",
-    num: "07",
-    title: "Coerção de tipos",
-    duration: "11 min",
-    badge: "Pro",
-    prev: "?pagina=variaveis-tipos/aulas/06",
-    next: "?pagina=variaveis-tipos/aulas/08",
+    modulo: "Variáveis & Tipos", moduloHref: "?pagina=variaveis-tipos",
+    num: "07", title: "Coerção de tipos", duration: "12 min", badge: "Pro",
+    prev: "?pagina=variaveis-tipos/aulas/06", next: null,
   };
+  const nav = (m) => `<nav class="aula-nav"><a href="${m.prev}" class="aula-nav__btn aula-nav__btn--prev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Aula anterior</a><span></span></nav>`;
 
-  const nav = (m) => `
-    <nav class="aula-nav">
-      <a href="${m.prev}" class="aula-nav__btn aula-nav__btn--prev">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        Aula anterior
-      </a>
-      <a href="${m.next}" class="aula-nav__btn aula-nav__btn--next">
-        Próxima aula
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </nav>`;
-
-  class AulaCoercaoTipos extends HTMLElement {
+  class AulaCoercao extends HTMLElement {
     connectedCallback() {
       const done = window.Progress?.isDone(META.pagina);
-
       this.innerHTML = `
-        <main class="page-aula">
-          <div class="aula-wrapper">
-            <header class="aula-header">
-              <div class="aula-header__meta">
-                <a href="${META.moduloHref}" class="aula-back">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-                  ${META.modulo}
-                </a>
-                <span class="aula-header__num">Aula ${META.num}</span>
-              </div>
-              <h1 class="aula-header__title">${META.title}</h1>
-              <div class="aula-header__info">
-                <span class="aula-badge aula-badge--pro">${META.badge}</span>
-                <span class="aula-duration">${META.duration} de leitura</span>
-                <button class="btn-concluir ${done ? 'done' : ''}" id="btn-concluir">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  ${done ? 'Concluída' : 'Marcar como concluída'}
-                </button>
-              </div>
-            </header>
-
-            <div class="aula-body">
-              <section class="aula-section">
-                <h2>O que é coerção de tipos?</h2>
-                <p>Coerção acontece quando o JavaScript <strong>converte automaticamente um tipo em outro</strong> para conseguir executar uma operação.</p>
-                
-                ${window.codeBlock(`"5" + 1; // "51" (o número virou string)
-"5" - 1; // 4    (a string virou número)
-"5" * "2"; // 10   (ambas viraram números)`)}
-
-                <div class="aula-callout aula-callout--info">
-                  <strong>Nota:</strong> O operador <code>+</code> é ambíguo pois serve para soma e concatenação. Em qualquer dúvida, o JS prioriza a <strong>String</strong> se um dos lados for texto.
-                </div>
-              </section>
-
-              <section class="aula-section">
-                <h2>Coerção Implícita vs Explícita</h2>
-                <p>A coerção <strong>implícita</strong> é o "jeitinho" do JS. A <strong>explícita</strong> (ou Type Casting) é quando você assume o controle.</p>
-                
-                ${window.codeBlock(`// Implícita (automática)
-if ("") { ... }       // "" vira false
-const check = !!1;     // 1 vira true
-
-// Explícita (manual)
-const num = Number("123"); 
-const str = String(true);
-const bool = Boolean(0);`)}
-              </section>
-
-              <section class="aula-section">
-                <h2>Valores Falsy e Truthy</h2>
-                <p>Em contextos booleanos (como no <code>if</code>), estes 6 valores sempre serão <strong>falsy</strong>:</p>
-                
-                <ul class="aula-list">
-                  <li><code>false</code>, <code>0</code> (e <code>-0</code> ou <code>0n</code>)</li>
-                  <li><code>""</code> (string vazia)</li>
-                  <li><code>null</code> e <code>undefined</code></li>
-                  <li><code>NaN</code></li>
-                </ul>
-                <p>Todo o resto (incluindo <code>[]</code> e <code>{}</code> vazios) é <strong>truthy</strong>.</p>
-              </section>
-
-              <section class="aula-section">
-                <h2>A Armadilha do Igualdade (== vs ===)</h2>
-                <div class="aula-cards">
-                  <div class="aula-card">
-                    <div class="aula-card__icon">⚠️</div>
-                    <h3>Abstrata (==)</h3>
-                    <p>Compara valores <strong>permitindo coerção</strong>. Tenta converter antes de comparar.</p>
-                  </div>
-                  <div class="aula-card">
-                    <div class="aula-card__icon">✅</div>
-                    <h3>Estrita (===)</h3>
-                    <p>Compara <strong>valor e tipo</strong>. Se forem tipos diferentes, retorna false imediatamente.</p>
-                  </div>
-                </div>
-
-                ${window.codeBlock(`5 == "5";   // true
-5 === "5";  // false
-
-null == undefined;  // true
-null === undefined; // false`)}
-              </section>
-
-              <section class="aula-section">
-                <h2>Resumo</h2>
-                <ul class="aula-list">
-                  <li><strong>Coerção</strong> é a conversão "na força" de tipos.</li>
-                  <li>O JS é <strong>fracamente tipado</strong>, por isso faz muita coerção implícita.</li>
-                  <li>Use sempre <code>===</code> para evitar bugs silenciosos.</li>
-                  <li>Valores "vazios" como <code>null</code>, <code>undefined</code> e <code>""</code> tendem a ser <strong>falsy</strong>.</li>
-                </ul>
-              </section>
+        <main class="page-aula"><div class="aula-wrapper">
+          <header class="aula-header">
+            <div class="aula-header__meta">
+              <a href="${META.moduloHref}" class="aula-back"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>${META.modulo}</a>
+              <span class="aula-header__num">Aula ${META.num}</span>
             </div>
-            ${nav(META)}
+            <h1 class="aula-header__title">${META.title}</h1>
+            <div class="aula-header__info">
+              <span class="aula-badge aula-badge--pro">${META.badge}</span>
+              <span class="aula-duration">${META.duration} de leitura</span>
+              <button class="btn-concluir ${done ? 'done' : ''}" id="btn-concluir"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${done ? 'Concluída' : 'Marcar como concluída'}</button>
+            </div>
+          </header>
+          <div class="aula-body">
+
+            <section class="aula-section">
+              <h2>O que é coerção?</h2>
+              <p>Coerção de tipos é a <strong>conversão automática</strong> que o JavaScript faz ao comparar ou operar valores de tipos diferentes. É um dos comportamentos mais polêmicos da linguagem — fonte de bugs famosos e piadas da comunidade.</p>
+              <p>Há dois tipos: <strong>coerção implícita</strong> (feita pelo JS automaticamente) e <strong>coerção explícita</strong> (feita por você intencionalmente com funções de conversão).</p>
+            </section>
+
+            <section class="aula-section">
+              <h2>== vs === (a diferença fundamental)</h2>
+              <p><code>==</code> compara com coerção — o JS tenta converter os tipos antes de comparar. <code>===</code> compara sem coerção — tipo <strong>e</strong> valor devem ser iguais.</p>
+              ${window.codeBlock(`// == permite coerção de tipos
+0  == false;   // true  — false vira 0
+1  == true;    // true  — true vira 1
+"" == false;   // true  — "" e false viram 0
+"1" == 1;      // true  — "1" vira número 1
+null == undefined; // true  — exceção especial
+0  == "";      // true  — "" vira 0
+
+// === sem coerção — tipo e valor devem bater
+0   === false;  // false — number vs boolean
+"1" === 1;      // false — string vs number
+null === undefined; // false — tipos diferentes
+
+// Regra: use === sempre!
+// Use == apenas para checar null OU undefined de uma vez:
+value == null; // true se value é null OU undefined`)}
+              <div class="aula-callout aula-callout--warning">
+                <strong>Use sempre <code>===</code>.</strong> O <code>==</code> tem mais de 50 regras de coerção
+                que ninguém decora. A única exceção aceitável é <code>value == null</code> para checar
+                null e undefined simultaneamente.
+              </div>
+            </section>
+
+            <section class="aula-section">
+              <h2>Coerção em operações aritméticas</h2>
+              <p>O operador <code>+</code> tem comportamento duplo: se <em>algum</em> operando for string, concatena. Se forem números, soma.</p>
+              ${window.codeBlock(`// + com strings — concatenação!
+"3" + 4;        // "34"  — 4 vira string
+4 + "3";        // "43"
+1 + 2 + "3";    // "33" — esquerda p/ direita: 1+2=3, depois 3+"3"="33"
+"1" + 2 + 3;    // "123"
+
+// Outros operadores convertem para número
+"6" - 2;        // 4  — "6" vira número
+"6" * "2";      // 12
+"10" / 2;       // 5
+"3" ** 2;       // 9
+
+// Casos confusos
+null + 1;       // 1   — null vira 0
+undefined + 1;  // NaN — undefined vira NaN
+true + 1;       // 2   — true vira 1
+false + 1;      // 1   — false vira 0
+[] + [];        // ""  — arrays viram strings vazias
+{} + [];        // 0   — {} interpretado como bloco
+[] + {};        // "[object Object]"`)}
+            </section>
+
+            <section class="aula-section">
+              <h2>Coerção para Boolean (contexto lógico)</h2>
+              <p>Qualquer valor em contexto booleano (if, &&, ||, !) sofre coerção. Lembre: apenas 6 valores são <strong>falsy</strong>.</p>
+              ${window.codeBlock(`// Coerção implícita em if
+if ("0")  console.log("truthy!"); // imprime — string não vazia!
+if (0)    console.log("truthy"); // não imprime — 0 é falsy
+if ([])   console.log("truthy!"); // imprime — array é truthy!
+
+// Operador || — retorna o primeiro valor truthy
+const nome = "" || "Visitante";  // "Visitante"
+const porta = 0 || 3000;         // 3000  (cuidado! 0 é falsy mas pode ser válido)
+
+// Operador && — retorna o primeiro valor falsy, ou o último
+const logado = true;
+const msg = logado && "Bem-vindo!"; // "Bem-vindo!"
+
+// Operador ?? (nullish coalescing) — só faz coerção para null/undefined
+const porta2 = 0 ?? 3000;  // 0  ← não faz coerção de 0 (falsy)!
+const porta3 = null ?? 3000; // 3000
+
+// Conversão explícita para boolean
+Boolean(0);    // false
+Boolean("0");  // true — string "0" é truthy!
+!!0;           // false — dupla negação
+!!"";          // false
+!!"texto";     // true`)}
+            </section>
+
+            <section class="aula-section">
+              <h2>Coerção explícita — conversões seguras</h2>
+              <p>Quando você precisa converter tipos, faça <em>explicitamente</em> — o código fica claro e previsível.</p>
+              ${window.codeBlock(`// Para Number
+Number("42");       // 42
+Number("3.14");     // 3.14
+Number("");         // 0
+Number("  3  ");    // 3  — ignora espaços
+Number("abc");      // NaN
+Number(true);       // 1
+Number(false);      // 0
+Number(null);       // 0
+Number(undefined);  // NaN
+
+parseInt("42px");    // 42  — para até o não-numérico
+parseInt("3.14");    // 3   — só a parte inteira
+parseFloat("3.14m"); // 3.14
+
+// Para String
+String(42);          // "42"
+String(true);        // "true"
+String(null);        // "null"
+String(undefined);   // "undefined"
+(42).toString();     // "42"
+(255).toString(16);  // "ff"  — base hexadecimal
+
+// Para Boolean
+Boolean(0);          // false
+Boolean("");         // false
+Boolean(null);       // false
+Boolean(undefined);  // false
+Boolean(NaN);        // false
+Boolean("tudo o mais"); // true`)}
+            </section>
+
+            <section class="aula-section">
+              <h2>As piadas mais famosas do JS</h2>
+              ${window.codeBlock(`// Os exemplos que viraram meme
+typeof NaN === "number"    // true
+NaN === NaN                // false  (NaN não é igual nem a si mesmo!)
+null == undefined          // true
+null === undefined         // false
+typeof null === "object"   // true  (bug histórico)
+0.1 + 0.2 === 0.3         // false  (ponto flutuante)
+"" == false               // true
+"0" == false              // true   MAS
+"" == "0"                 // false  (== não é transitivo!)
+
+// Por isso use === e conversões explícitas sempre!`)}
+              <div class="aula-callout aula-callout--tip">
+                <strong>Dica prática:</strong> Use <code>===</code> por padrão, <code>??</code> em vez de <code>||</code> quando
+                valores falsy legítimos (0, "") importam, e sempre converta explicitamente com
+                <code>Number()</code>, <code>String()</code> ou <code>Boolean()</code>.
+              </div>
+            </section>
+
+            <section class="aula-section">
+              <h2>Resumo</h2>
+              <ul class="aula-list">
+                <li>Coerção <strong>implícita</strong> acontece automaticamente — pode causar bugs.</li>
+                <li>Use <strong><code>===</code></strong> sempre. <code>==</code> tem regras complexas demais.</li>
+                <li><code>+</code> com strings <strong>concatena</strong> — outros operadores convertem para número.</li>
+                <li><code>||</code> retorna o primeiro <em>truthy</em> — use <code>??</code> quando 0 e "" são válidos.</li>
+                <li>Coerção <strong>explícita</strong>: <code>Number()</code>, <code>String()</code>, <code>Boolean()</code> — clara e segura.</li>
+                <li><code>NaN !== NaN</code> — use <code>Number.isNaN()</code> para verificar.</li>
+              </ul>
+            </section>
+
           </div>
-        </main>`;
+          ${nav(META)}
+        </div></main>`;
 
-                }}
-
-  /* =========================================================
-   CODE BLOCK HIGHLIGHTER
-   simples, leve e sem bibliotecas
-========================================================= */
-
-  function escapeHtml(str) {
-    return str
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
-  window.codeBlock = function (code) {
-
-    // evita que o navegador interprete HTML
-    code = escapeHtml(code);
-
-    // armazenamento temporário
-    const store = [];
-    let i = 0;
-
-    function protect(regex, cssClass) {
-      code = code.replace(regex, match => {
-        const id = `___PLACE_${i++}___`;
-
-        store.push({
-          id,
-          html: `<span class="${cssClass}">${match}</span>`
-        });
-
-        return id;
+      document.getElementById("btn-concluir")?.addEventListener("click", function () {
+        const isDone = window.Progress?.isDone(META.pagina);
+        isDone ? window.Progress?.uncomplete(META.pagina) : window.Progress?.complete(META.pagina);
+        this.classList.toggle("done", !isDone);
+        this.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${!isDone ? "Concluída" : "Marcar como concluída"}`;
       });
     }
-
-    /* =========================================================
-       PROTEGER PARTES SENSÍVEIS
-       (strings e comentários primeiro)
-    ========================================================= */
-
-    protect(/\/\/.*/g, "hl-comment");
-
-    protect(/(".*?"|'.*?'|`.*?`)/g, "hl-string");
-
-
-    /* =========================================================
-       KEYWORDS
-    ========================================================= */
-
-    code = code.replace(
-      /\b(var|let|const|if|else|for|while|return|function|class|new|switch|case|break|continue)\b/g,
-      '<span class="hl-keyword">$1</span>'
-    );
-
-
-    /* =========================================================
-       NÚMEROS
-    ========================================================= */
-
-    code = code.replace(
-      /\b(\d+)\b/g,
-      '<span class="hl-number">$1</span>'
-    );
-
-
-    /* =========================================================
-       CONSOLE
-    ========================================================= */
-
-    code = code.replace(
-      /\b(console)\b/g,
-      '<span class="hl-fn">$1</span>'
-    );
-
-
-    /* =========================================================
-       PROPRIEDADES
-    ========================================================= */
-
-    code = code.replace(
-      /\.([a-zA-Z_]+)/g,
-      '.<span class="hl-prop">$1</span>'
-    );
-
-
-    /* =========================================================
-       RESTAURAR PARTES PROTEGIDAS
-    ========================================================= */
-
-    store.forEach(item => {
-      code = code.replace(item.id, item.html);
-    });
-
-
-    /* =========================================================
-       RETORNAR BLOCO FINAL
-    ========================================================= */
-
-    /* =========================================================
-    RETORNAR BLOCO FINAL COM BOTÃO DE COPIAR
- ========================================================= */
-    return `
-<div class="code-container" style="position: relative;">
-  <button class="btn-copy" onclick="copyCode(this)" title="Copiar código">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-  </button>
-  <pre class="aula-code"><code>${code}</code></pre>
-</div>
-`;
-  };
-  window.copyCode = function (btn) {
-    // Busca o texto dentro do <code> que está no mesmo container
-    const code = btn.parentElement.querySelector('code').innerText;
-
-    navigator.clipboard.writeText(code).then(() => {
-      const originalInner = btn.innerHTML;
-      btn.innerHTML = '<span>Copiado!</span>';
-      btn.classList.add('copied');
-
-      setTimeout(() => {
-        btn.innerHTML = originalInner;
-        btn.classList.remove('copied');
-      }, 2000);
-    });
-  };
-
-  customElements.define("aula-coercao-tipos", AulaCoercaoTipos);
+  }
+  customElements.define("aula-coercao", AulaCoercao);
 }
