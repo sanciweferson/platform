@@ -1,6 +1,6 @@
 /* =========================================================
    SPA — Roteador de páginas
-   
+
    O index.html da raiz É a home (boas-vindas).
    O #app começa vazio e recebe as páginas ao navegar.
    Ao voltar para a home (logo ou URL sem ?pagina=),
@@ -15,6 +15,16 @@ const capturarApp = () => {
   app = document.getElementById("app");
 };
 
+/* ── CSS compartilhado das aulas (carrega uma vez) ── */
+const garantirCSSCompartilhado = () => {
+  if (document.getElementById("css-shared-aula")) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "/partials/shared/aula.css";
+  link.id = "css-shared-aula";
+  document.head.appendChild(link);
+};
+
 /* ── Carrega CSS da página dinamicamente ── */
 const carregarCSS = (pagina) => {
   const id = "css-pagina";
@@ -23,6 +33,8 @@ const carregarCSS = (pagina) => {
   link.rel = "stylesheet";
   link.href = `/partials/pages/${pagina}/index.css`;
   link.id = id;
+  // Ignora silenciosamente se não existir
+  link.onerror = () => link.remove();
   document.head.appendChild(link);
 };
 
@@ -46,6 +58,9 @@ const carregarScript = (pagina) => {
 const carregarPagina = (pagina) => {
   if (!app) return;
 
+  // Páginas de aula precisam do CSS compartilhado
+  if (pagina.includes("/aulas/")) garantirCSSCompartilhado();
+
   const url = `/partials/pages/${pagina}/index.html`;
 
   fetch(url)
@@ -56,10 +71,14 @@ const carregarPagina = (pagina) => {
     .then((html) => {
       app.innerHTML = html;
       window.scrollTo(0, 0);
-      document.title = "JS — " + pagina.replace(/-/g, " ");
+
+      // Título amigável: "variaveis-tipos/aulas/02" → "variaveis tipos aulas 02"
+      const titulo = pagina.split("/").pop().replace(/-/g, " ");
+      document.title = `JS — ${titulo}`;
+
       // Esconde o conteúdo fixo da home
-      const homeContent = document.getElementById("home-content");
-      if (homeContent) homeContent.style.display = "none";
+      document.getElementById("home-content")?.style.setProperty("display", "none");
+
       carregarCSS(pagina);
       carregarScript(pagina);
     })
@@ -67,13 +86,15 @@ const carregarPagina = (pagina) => {
       console.error("[SPA]", err);
       app.innerHTML = `
         <div style="padding:4rem 1.5rem;text-align:center;">
-          <h2 style="font-size:1.5rem;margin-bottom:.5rem">404</h2>
-          <p style="color:var(--muted-foreground)">Página <strong>${pagina}</strong> não encontrada.</p>
+          <h2 style="font-size:1.5rem;margin-bottom:.5rem;color:var(--foreground)">404</h2>
+          <p style="color:var(--muted-foreground)">
+            Página <strong>${pagina}</strong> não encontrada.
+          </p>
         </div>`;
     });
 };
 
-/* ── Volta para a home — limpa o #app e mostra o conteúdo fixo ── */
+/* ── Volta para a home ── */
 const mostrarHome = () => {
   if (!app) return;
   app.innerHTML = "";
@@ -109,7 +130,7 @@ document.addEventListener("click", (e) => {
   const href = link.getAttribute("href");
   if (!href || href.startsWith("http") || href.startsWith("mailto")) return;
 
-  // Logo ou link para a raiz → home
+  // Logo / link para a raiz → home
   if (href === "/" || href === "/index.html" || href === "./") {
     e.preventDefault();
     mostrarHome();

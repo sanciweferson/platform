@@ -1,0 +1,415 @@
+/* =========================================================
+   AULA — CSS COMPARTILHADO
+   Usa as variáveis de root.css
+   Importar em cada módulo: @import "../../../shared/aula.css";
+========================================================= */
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+.page-aula {
+  padding-block: 2.5rem 5rem;
+  padding-inline: 1.25rem;
+}
+
+.aula-wrapper {
+  max-width: 48rem;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+.aula-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.aula-header__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.aula-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  border-radius: var(--radius);
+  padding: 0.25rem 0.5rem;
+  margin-left: -0.5rem;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.aula-back:hover {
+  color: var(--foreground);
+  background-color: var(--accent);
+}
+
+.aula-header__num {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.aula-header__title {
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--foreground);
+}
+
+.aula-header__info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.aula-duration {
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
+}
+
+/* =========================================================
+   BADGES
+========================================================= */
+.aula-badge {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.aula-badge--free {
+  background-color: oklch(from var(--primary) l c h / 15%);
+  color: var(--primary);
+}
+
+[data-theme="dark"] .aula-badge--free {
+  background-color: oklch(from var(--primary) l c h / 20%);
+  color: oklch(from var(--primary) calc(l + 0.2) c h);
+}
+
+.aula-badge--pro {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+}
+
+/* =========================================================
+   CORPO
+========================================================= */
+.aula-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 2.5rem;
+}
+
+.aula-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.aula-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+.aula-section p {
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  line-height: 1.8;
+}
+
+.aula-section p strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.aula-section p em {
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+/* =========================================================
+   INLINE CODE
+========================================================= */
+.aula-section code,
+.aula-list code,
+.aula-table code {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 0.85em;
+  background-color: var(--muted);
+  color: var(--foreground);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+  border: 1px solid var(--border);
+}
+
+/* =========================================================
+   BLOCO DE CÓDIGO
+========================================================= */
+.aula-code {
+  background-color: oklch(0.13 0.008 285);
+  border: 1px solid oklch(1 0 0 / 8%);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  margin: 0;
+}
+
+[data-theme="dark"] .aula-code {
+  background-color: oklch(0.11 0.006 285);
+  border-color: oklch(1 0 0 / 10%);
+}
+
+.aula-code code {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 0.875rem;
+  color: oklch(0.88 0.06 130);
+  background: none;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  white-space: pre;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   CALLOUTS
+========================================================= */
+.aula-callout {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  border-left: 3px solid;
+}
+
+.aula-callout strong {
+  font-weight: 600;
+}
+
+/* Info — azul */
+.aula-callout--info {
+  background-color: oklch(from var(--primary) l c h / 8%);
+  border-color: var(--primary);
+  color: var(--foreground);
+}
+
+[data-theme="dark"] .aula-callout--info {
+  background-color: oklch(from var(--primary) l c h / 12%);
+}
+
+/* Warning — âmbar */
+.aula-callout--warning {
+  background-color: oklch(0.96 0.04 85);
+  border-color: oklch(0.72 0.15 80);
+  color: var(--foreground);
+}
+
+[data-theme="dark"] .aula-callout--warning {
+  background-color: oklch(0.24 0.04 80);
+  border-color: oklch(0.65 0.14 80);
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+.aula-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.aula-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.125rem 1rem;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease;
+}
+
+.aula-card:hover {
+  border-color: var(--ring);
+}
+
+.aula-card__icon {
+  font-size: 1.375rem;
+  line-height: 1;
+}
+
+.aula-card h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.aula-card p {
+  font-size: 0.8125rem !important;
+  color: var(--muted-foreground) !important;
+  line-height: 1.6 !important;
+}
+
+/* =========================================================
+   LISTA
+========================================================= */
+.aula-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.aula-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  line-height: 1.7;
+}
+
+.aula-list li::before {
+  content: "–";
+  color: var(--muted-foreground);
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* =========================================================
+   TABELA
+========================================================= */
+.aula-table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.aula-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.aula-table th,
+.aula-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.aula-table th {
+  font-weight: 600;
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.aula-table td {
+  color: var(--foreground);
+}
+
+.aula-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.aula-table tbody tr:hover td {
+  background-color: var(--accent);
+}
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+.aula-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+  gap: 1rem;
+}
+
+.aula-nav__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--foreground);
+  background-color: var(--card);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.aula-nav__btn:hover {
+  background-color: var(--accent);
+  border-color: var(--ring);
+  transform: translateY(-1px);
+}
+
+.aula-nav__btn--next {
+  margin-left: auto;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+.aula-nav__btn--next:hover {
+  opacity: 0.88;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+@media (min-width: 768px) {
+  .page-aula {
+    padding-block: 3.5rem 6rem;
+    padding-inline: 2rem;
+  }
+
+  .aula-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .aula-cards:has(.aula-card:only-child),
+  .aula-cards:has(.aula-card:nth-child(2):last-child) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
