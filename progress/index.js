@@ -272,6 +272,16 @@ const renderProgress = () => {
         <span class="home-progress__pct">${pctGlobal}%</span>
       </div>
 
+      <!-- ── RELÓGIO AO VIVO ── -->
+      <div class="progress-clock">
+        <div class="progress-clock__icon">🕐</div>
+        <div class="progress-clock__info">
+          <!-- IDs usados pelo home-widgets.js para atualizar a cada segundo -->
+          <span class="progress-clock__data" id="clock-data">carregando...</span>
+          <span class="progress-clock__hora" id="clock-hora">--:--:--</span>
+        </div>
+      </div>
+
       <div class="home-progress__stats">
         <div class="progress-stat">
           <div class="progress-stat__icon">${streak.count >= 3 ? "🔥" : "📅"}</div>

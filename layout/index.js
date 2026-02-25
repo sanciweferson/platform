@@ -13,6 +13,7 @@ const Icons = {
    MENU ITEMS  (sem acentos nos hrefs)
 ========================================================= */
 const menuItems = [
+  {id: "home", href: "/", text: "Home"},
   { id: "fundamentos", href: "?pagina=fundamentos", text: "Fundamentos" },
   { id: "variaveisTipos", href: "?pagina=variaveis-tipos", text: "Variáveis & Tipos" },
   { id: "logicaFluxo", href: "?pagina=logica-fluxo", text: "Lógica & Fluxo" },

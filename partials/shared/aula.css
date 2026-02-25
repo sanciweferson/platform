@@ -160,6 +160,16 @@
   gap: 1rem;
 }
 
+/* Reduz gap entre code-block e result */
+.aula-section .code-block+.result {
+  margin-top: -.5rem;
+}
+
+/* Reduz gap entre results consecutivos */
+.aula-section .result+.result {
+  margin-top: .25rem;
+}
+
 .aula-section h2 {
   font-size: 1.25rem;
   font-weight: 700;
@@ -200,7 +210,150 @@ code {
 }
 
 /* =========================================================
-   BLOCO DE CÓDIGO + BOTÃO COPIAR
+   BLOCO DE CÓDIGO INTERATIVO
+========================================================= */
+.code-block {
+  background-color: oklch(0.14 0.01 260);
+  border: 1px solid oklch(1 0 0 / 8%);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: .875rem;
+  line-height: 1.8;
+  overflow-x: auto;
+  margin: 0;
+}
+
+[data-theme="dark"] .code-block {
+  background-color: oklch(0.12 0.008 260);
+  border-color: oklch(1 0 0 / 10%);
+}
+
+/* Reseta o inline code dentro do code-block */
+.code-block code {
+  background: none !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  display: block;
+  color: oklch(0.9 0.02 260);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* =========================================================
+   SYNTAX HIGHLIGHTING — Tokens dentro do code-block
+========================================================= */
+
+/* Palavra-chave: var, let, const */
+.palavra-chave {
+  color: oklch(0.72 0.20 290);
+  /* roxo */
+  font-weight: 600;
+}
+
+/* Identificador: nome da variável */
+.identificador {
+  color: oklch(0.9 0.02 260);
+  /* branco suave */
+}
+
+/* Operador: = */
+.operator {
+  color: oklch(0.72 0.08 260);
+  /* cinza claro */
+  margin: 0 .3rem;
+}
+
+/* Valor: strings, números */
+.valor {
+  color: oklch(0.78 0.15 140);
+  /* verde */
+}
+
+/* Loop: for, while */
+.for {
+  color: oklch(0.72 0.20 290);
+  /* roxo */
+  font-weight: 600;
+}
+
+/* Função: function */
+.function {
+  color: oklch(0.78 0.15 200);
+  /* ciano */
+}
+
+/* Return */
+.return {
+  color: oklch(0.72 0.20 290);
+  /* roxo */
+  font-weight: 600;
+}
+
+/* =========================================================
+   RESULTADO DO CONSOLE
+========================================================= */
+.result {
+  background-color: oklch(0.16 0.01 260);
+  border: 1px solid oklch(1 0 0 / 6%);
+  border-radius: var(--radius);
+  padding: .875rem 1.25rem;
+  margin: 0;
+}
+
+[data-theme="dark"] .result {
+  background-color: oklch(0.14 0.008 260);
+  border-color: oklch(1 0 0 / 8%);
+}
+
+.result h3 {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: .8125rem !important;
+  font-weight: 500 !important;
+  color: oklch(0.75 0.02 260) !important;
+  margin: 0 !important;
+  line-height: 1.6;
+}
+
+/* Valores no resultado */
+.result .defined {
+  color: oklch(0.78 0.15 140);
+  /* verde — valor definido */
+  font-weight: 600;
+}
+
+.result .undefined {
+  color: oklch(0.78 0.18 55);
+  /* laranja — undefined */
+  font-weight: 600;
+}
+
+.result .error {
+  color: oklch(0.72 0.20 10);
+  /* vermelho — erro */
+  font-weight: 600;
+}
+
+/* =========================================================
+   EXPLICAÇÃO
+========================================================= */
+.explanation {
+  margin-top: .75rem;
+}
+
+.explanation p {
+  font-size: .875rem !important;
+  line-height: 1.7 !important;
+  color: var(--muted-foreground) !important;
+}
+
+.explanation code {
+  font-size: .8em;
+}
+
+/* =========================================================
+   BLOCO DE CÓDIGO + BOTÃO COPIAR (para window.codeBlock)
 ========================================================= */
 .code-container {
   position: relative;
@@ -212,7 +365,6 @@ code {
   border: 1px solid oklch(1 0 0 / 8%);
   border-radius: var(--radius);
   padding: 2.75rem 1.5rem 1.25rem;
-  /* topo maior para o botão copiar */
   overflow-x: auto;
   margin: 0;
 }
@@ -222,7 +374,6 @@ code {
   border-color: oklch(1 0 0 / 10%);
 }
 
-/* Reseta o inline code dentro do bloco de código */
 .aula-code code {
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
   font-size: .875rem;
@@ -270,39 +421,32 @@ code {
 }
 
 /* =========================================================
-   SYNTAX HIGHLIGHT TOKENS
+   SYNTAX HIGHLIGHT TOKENS (para window.codeBlock)
 ========================================================= */
 .hl-keyword {
   color: oklch(0.72 0.20 290);
 }
 
-/* roxo   — var/let/const/function */
 .hl-string {
   color: oklch(0.78 0.15 140);
 }
 
-/* verde  — "strings"              */
 .hl-comment {
   color: oklch(0.55 0.02 260);
   font-style: italic;
 }
 
-/* cinza       */
 .hl-number {
   color: oklch(0.78 0.18 55);
 }
 
-/* laranja — números               */
 .hl-fn {
   color: oklch(0.78 0.15 200);
 }
 
-/* ciano  — funções()              */
 .hl-prop {
   color: oklch(0.82 0.08 220);
 }
-
-/* azul   — .propriedades          */
 
 /* =========================================================
    CALLOUTS
@@ -397,9 +541,6 @@ code {
 
 /* =========================================================
    LISTA
-   FIX: li como display:block + padding-left para o traço.
-   O problema anterior era display:flex — cada <code> virava
-   uma coluna separada, quebrando o layout do texto.
 ========================================================= */
 .aula-list {
   display: flex;
@@ -411,7 +552,6 @@ code {
 
 .aula-list li {
   display: block;
-  /* ← correção principal */
   padding-left: 1.25rem;
   position: relative;
   font-size: .9375rem;
@@ -419,7 +559,6 @@ code {
   line-height: 1.8;
 }
 
-/* Traço posicionado absolutamente — não interfere no flow do texto */
 .aula-list li::before {
   content: "–";
   position: absolute;
@@ -531,4 +670,82 @@ code {
   .aula-cards {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* =========================================================
+   DEMO CODE — bloco de código interativo e semântico
+   (mantido para compatibilidade futura)
+========================================================= */
+
+.demo-code {
+  background-color: oklch(0.14 0.01 260);
+  border: 1px solid oklch(1 0 0 / 8%);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: .875rem;
+  line-height: 1.75;
+}
+
+.demo-line {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .3rem;
+}
+
+.demo-line--output {
+  margin-top: .5rem;
+  padding-top: .5rem;
+  border-top: 1px solid oklch(1 0 0 / .08);
+}
+
+.demo-arrow {
+  color: oklch(0.55 0.02 260);
+  margin-inline: .25rem;
+}
+
+.demo-code .kw {
+  color: oklch(0.72 0.20 290);
+  font-weight: 600;
+}
+
+.demo-code .ident {
+  color: oklch(0.9 0.02 260);
+}
+
+.demo-code .op {
+  color: oklch(0.72 0.08 260);
+}
+
+.demo-code .str {
+  color: oklch(0.78 0.15 140);
+}
+
+.demo-code .num {
+  color: oklch(0.78 0.18 55);
+}
+
+.demo-code .bool {
+  color: oklch(0.72 0.20 290);
+}
+
+.demo-code .fn {
+  color: oklch(0.78 0.15 200);
+}
+
+.demo-code .punct {
+  color: oklch(0.6 0.02 260);
+}
+
+.demo-code .out {
+  color: oklch(0.78 0.15 140);
+  font-style: italic;
+}
+
+.demo-code .out--warn {
+  color: oklch(0.78 0.18 55);
 }

@@ -96,6 +96,8 @@ var outro = "x";
   console.log(x); // ReferenceError — TDZ
   let x = 10;
 }`)}
+
+
                 <div class="aula-callout aula-callout--tip">
                   <strong>TDZ é uma feature, não um bug!</strong> Ela força você a declarar variáveis
                   antes de usá-las — tornando o código mais previsível e fácil de entender.

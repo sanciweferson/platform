@@ -1,0 +1,126 @@
+/* =========================================================
+   SCROLL TO TOP — botão flutuante com anel de progresso
+========================================================= */
+
+.scroll-top {
+  /* Posição: canto inferior direito */
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 800;
+
+  /* Tamanho e forma */
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  /* Centra o conteúdo (anel + texto) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Fundo com blur (glassmorphism leve) */
+  background-color: var(--card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 4px 16px oklch(0 0 0 / .12);
+
+  /* Começa invisível — JS adiciona .scroll-top--visible */
+  opacity: 0;
+  transform: translateY(8px) scale(.85);
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+/* Visível após 200px de scroll */
+.scroll-top--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+.scroll-top:hover {
+  transform: translateY(-2px) scale(1.06);
+  box-shadow:
+    0 0 0 1px var(--ring),
+    0 8px 24px oklch(0 0 0 / .18);
+}
+
+.scroll-top:active {
+  transform: scale(.95);
+}
+
+/* ── Anel SVG ── */
+.scroll-top__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Rotaciona para que o arco comece do topo (−90°) */
+  transform: rotate(-90deg);
+}
+
+/* Trilha (círculo de fundo, sempre visível) */
+.scroll-top__track {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 3;
+}
+
+/* Arco de progresso */
+.scroll-top__arc {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset .15s linear;
+}
+
+/* ── Percentual numérico ── */
+.scroll-top__pct {
+  position: relative;
+  /* fica sobre o SVG */
+  font-size: .6rem;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -.02em;
+  line-height: 1;
+  pointer-events: none;
+  transition: opacity .2s;
+}
+
+/* ── Seta (aparece quando pct ≥ 99%) ── */
+.scroll-top__arrow {
+  position: absolute;
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--primary);
+  opacity: 0;
+  /* invisível por padrão */
+  transition: opacity .2s;
+  pointer-events: none;
+}
+
+/* Quando 100%: esconde número, mostra seta */
+.scroll-top--done .scroll-top__pct {
+  opacity: 0;
+}
+
+.scroll-top--done .scroll-top__arrow {
+  opacity: 1;
+}
+
+/* ── Mobile: um pouco menor e mais próximo da borda ── */
+@media (max-width: 640px) {
+  .scroll-top {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}

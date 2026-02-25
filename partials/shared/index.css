@@ -1,0 +1,133 @@
+/* =========================================================
+   WELCOME WIDGET — boas-vindas animada + relógio ao vivo
+========================================================= */
+
+/* ── Container principal ── */
+.welcome-widget {
+  /* Animação de entrada: sobe de baixo e faz fade */
+  animation: welcomeIn .5s ease both;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg,
+      oklch(from var(--primary) l c h / .06),
+      oklch(from var(--primary) l c h / .02));
+  border: 1px solid oklch(from var(--primary) l c h / .15);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+
+[data-theme="dark"] .welcome-widget {
+  background: linear-gradient(135deg,
+      oklch(from var(--primary) l c h / .1),
+      oklch(from var(--primary) l c h / .04));
+  border-color: oklch(from var(--primary) l c h / .2);
+}
+
+@keyframes welcomeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-widget__inner {
+  display: flex;
+  flex-direction: column;
+  gap: .375rem;
+}
+
+/* ── Saudação (bom dia / boa tarde / boa noite) ── */
+.welcome-widget__saudacao {
+  font-size: .8125rem;
+  font-weight: 600;
+  color: var(--chart-5);
+
+  letter-spacing: .02em;
+}
+.welcome-widget__frase{}
+/* ── Frase com efeito de digitação ── */
+.welcome-widget__frase {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--foreground);
+
+  margin: 0;
+  min-height: 1.5em;
+  /* evita o layout pular ao trocar de frase */
+}
+
+/* ── Cursor piscante ── */
+.welcome-widget__cursor {
+  display: inline-block;
+  color: var(--primary);
+  font-weight: 300;
+  animation: blink .75s step-end infinite;
+  margin-left: 1px;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   RELÓGIO AO VIVO — fica dentro do .home-progress
+========================================================= */
+
+/* Container do relógio (inserido pelo index.js no widget de progresso) */
+.progress-clock {
+  display: flex;
+  align-items: center;
+  gap: .625rem;
+  padding: .625rem .875rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.progress-clock__icon {
+  font-size: 1.125rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.progress-clock__info {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+  min-width: 0;
+}
+
+/* Data por extenso — ex: "Terça-feira, 24 de fevereiro de 2026" */
+.progress-clock__data {
+  font-size: .7rem;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  /* primeira letra maiúscula */
+}
+
+/* Hora — ex: "14:35:07" */
+.progress-clock__hora {
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: .03em;
+  font-variant-numeric: tabular-nums;
+
+  /* dígitos de largura fixa — não treme */
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}

@@ -3,8 +3,10 @@ if (!customElements.get("aula-fundamentos-01")) {
   /* =========================================================
      CONTEÚDO DA AULA
   ========================================================= */
-  const aula = {
+  const META = {
+    pagina: "fundamentos/aulas/01",  // ← Adicionado para tracking
     modulo: "Fundamentos",
+    moduloHref: "?pagina=fundamentos",  // ← Adicionado
     num: "01",
     title: "Introdução ao JavaScript",
     duration: "8 min",
@@ -16,23 +18,27 @@ if (!customElements.get("aula-fundamentos-01")) {
   /* =========================================================
      TEMPLATES
   ========================================================= */
-  const createHeader = () => `
+  const createHeader = (done) => `
     <header class="aula-header">
       <div class="aula-header__meta">
-        <a href="?pagina=fundamentos" class="aula-back">
+        <a href="${META.moduloHref}" class="aula-back">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          ${aula.modulo}
+          ${META.modulo}
         </a>
-        <span class="aula-header__num">Aula ${aula.num}</span>
+        <span class="aula-header__num">Aula ${META.num}</span>
       </div>
-      <h1 class="aula-header__title">${aula.title}</h1>
+      <h1 class="aula-header__title">${META.title}</h1>
       <div class="aula-header__info">
-        <span class="aula-badge aula-badge--${aula.badge === "Grátis" ? "free" : "pro"}">${aula.badge}</span>
-        <span class="aula-duration">${aula.duration} de leitura</span>
+        <span class="aula-badge aula-badge--${META.badge === "Grátis" ? "free" : "pro"}">${META.badge}</span>
+        <span class="aula-duration">${META.duration} de leitura</span>
+        <button class="btn-concluir ${done ? 'done' : ''}" id="btn-concluir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          ${done ? 'Concluída' : 'Marcar como concluída'}
+        </button>
       </div>
     </header>`;
 
-  const createContent = () => `
+   const createContent = () => /*HTML*/`
     <div class="aula-body">
 
       <section class="aula-section">
@@ -123,15 +129,15 @@ if (!customElements.get("aula-fundamentos-01")) {
 
   const createNav = () => `
     <nav class="aula-nav">
-      ${aula.prev
-      ? `<a href="${aula.prev}" class="aula-nav__btn aula-nav__btn--prev">
+      ${META.prev
+      ? `<a href="${META.prev}" class="aula-nav__btn aula-nav__btn--prev">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
             Aula anterior
           </a>`
       : `<span></span>`
     }
-      ${aula.next
-      ? `<a href="${aula.next}" class="aula-nav__btn aula-nav__btn--next">
+      ${META.next
+      ? `<a href="${META.next}" class="aula-nav__btn aula-nav__btn--next">
             Próxima aula
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>`
@@ -144,15 +150,25 @@ if (!customElements.get("aula-fundamentos-01")) {
   ========================================================= */
   class AulaFundamentos01 extends HTMLElement {
     connectedCallback() {
+      const done = window.Progress?.isDone(META.pagina);
+
       this.innerHTML = `
         <main class="page-aula">
           <div class="aula-wrapper">
-            ${createHeader()}
+            ${createHeader(done)}
             ${createContent()}
             ${createNav()}
           </div>
         </main>
       `;
+
+      /* ── Botão concluir ── */
+      document.getElementById("btn-concluir")?.addEventListener("click", function () {
+        const isDone = window.Progress?.isDone(META.pagina);
+        isDone ? window.Progress?.uncomplete(META.pagina) : window.Progress?.complete(META.pagina);
+        this.classList.toggle("done", !isDone);
+        this.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${!isDone ? "Concluída" : "Marcar como concluída"}`;
+      });
     }
   }
 

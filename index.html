@@ -1,3 +1,10 @@
+
+
+</body>
+</html>
+
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,66 +12,167 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JS Learning Platform</title>
 
-  <link rel="stylesheet" href="style.css">
-</head>
+  <!-- Tema carregado PRIMEIRO — evita flash de tema errado -->
+  <script src="theme.js"></script>
 
+  <!-- Estilos globais -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Widget de progresso + modais -->
+  <link rel="stylesheet" href="home-progress.css">
+
+  <!-- Boas-vindas animada + relógio -->
+  <link rel="stylesheet" href="welcome-widget.css">
+
+  <!-- Botão scroll to top com anel de progresso -->
+  <link rel="stylesheet" href="scroll-top.css">
+</head>
 <body>
 
-<header-bar></header-bar>
+  <header-bar></header-bar>
 
-<!-- HOME -->
-<div id="home-content">
+  <!-- ── CONTEÚDO FIXO DA HOME ── -->
+  <div id="home-content">
 
-  <section class="home-hero">
-    <div class="home-hero__eyebrow">Aprenda do zero ao avançado</div>
+    <!-- Boas-vindas animada (home-widgets.js injeta aqui) -->
 
-    <h1 class="home-hero__title">
-      JavaScript<br>na prática.
-    </h1>
+    <!-- Hero -->
+    <section class="home-hero">
+      <div class="home-hero__eyebrow">Aprenda do zero ao avançado</div>
+      <h1 class="home-hero__title">JavaScript<br>na prática.</h1>
+      <p class="home-hero__desc">
+        Um guia direto ao ponto para dominar JavaScript moderno —
+        desde os fundamentos até orientação a objetos e código assíncrono.
+      </p>
+      <div class="home-hero__cta">
+        <a href="?pagina=fundamentos" class="btn-primary">Começar agora</a>
+        <span class="home-hero__free">17 aulas gratuitas</span>
+      </div>
+    </section>
 
-    <p class="home-hero__desc">
-      Um guia direto ao ponto para dominar JavaScript moderno —
-      desde os fundamentos até orientação a objetos e código assíncrono.
-    </p>
-
-    <div class="home-hero__cta">
-      <a href="?pagina=fundamentos" class="btn-primary">
-        Começar agora
-      </a>
-      <span class="home-hero__free">50 aulas gratuitas</span>
-    </div>
-  </section>
-
-  <section class="home-modules">
-    <h2 class="home-modules__title">Módulos do curso</h2>
-  </section>
-
-  <!-- WIDGET DE PROGRESSO -->
-  <section class="home-progress-wrapper">
+    <!-- Widget de progresso (index.js injeta aqui) -->
     <div id="home-progress"></div>
-  </section>
 
-</div>
+    <!-- Módulos -->
+    <section class="home-modules">
+      <h2 class="home-modules__title">Módulos do curso</h2>
+      <div class="home-modules__grid">
 
-<!-- SPA -->
-<div id="app"></div>
+        <a href="?pagina=fundamentos" class="module-card">
+          <div class="module-card__header"><span class="module-num">01</span></div>
+          <div class="module-card__body">
+            <h3>Fundamentos</h3>
+            <p>O que é JS, como funciona no navegador e o ecossistema moderno.</p>
+          </div>
+          <div class="module-card__footer"><span>8 aulas</span><span>3 grátis</span></div>
+        </a>
 
-<footer-bar></footer-bar>
+        <a href="?pagina=variaveis-tipos" class="module-card">
+          <div class="module-card__header"><span class="module-num">02</span></div>
+          <div class="module-card__body">
+            <h3>Variáveis &amp; Tipos</h3>
+            <p>var, let, const, tipos primitivos, coerção e conversão de dados.</p>
+          </div>
+          <div class="module-card__footer"><span>7 aulas</span><span>2 grátis</span></div>
+        </a>
 
-<script src="layout/index.js"></script>
-<script src="layout/footer.js"></script>
-<script src="layout/menu.js"></script>
-<script src="spa/index.js"></script>
+        <a href="?pagina=logica-fluxo" class="module-card">
+          <div class="module-card__header"><span class="module-num">03</span></div>
+          <div class="module-card__body">
+            <h3>Lógica &amp; Fluxo</h3>
+            <p>Condicionais, loops, operadores lógicos e controle de fluxo.</p>
+          </div>
+          <div class="module-card__footer"><span>9 aulas</span><span>2 grátis</span></div>
+        </a>
 
-<script src="partials/shared/utils.js"></script>
-<script src="progress/index.js"></script>
+        <a href="?pagina=funcoes" class="module-card">
+          <div class="module-card__header"><span class="module-num">04</span></div>
+          <div class="module-card__body">
+            <h3>Funções</h3>
+            <p>Declaração, expressão, arrow functions, closures e escopo.</p>
+          </div>
+          <div class="module-card__footer"><span>10 aulas</span><span>2 grátis</span></div>
+        </a>
 
-<script src="index.js"></script>
+        <a href="#" class="module-card module-card--soon">
+          <div class="module-card__header">
+            <span class="module-num">05</span>
+            <span class="module-badge--soon">Em breve</span>
+          </div>
+          <div class="module-card__body">
+            <h3>Objetos Literais</h3>
+            <p>Criação, desestruturação, spread, métodos e protótipos.</p>
+          </div>
+          <div class="module-card__footer"><span>8 aulas</span><span>2 grátis</span></div>
+        </a>
 
+        <a href="#" class="module-card module-card--soon">
+          <div class="module-card__header">
+            <span class="module-num">06</span>
+            <span class="module-badge--soon">Em breve</span>
+          </div>
+          <div class="module-card__body">
+            <h3>Dominação do DOM</h3>
+            <p>Selecionar, criar, modificar e remover elementos do HTML.</p>
+          </div>
+          <div class="module-card__footer"><span>11 aulas</span><span>2 grátis</span></div>
+        </a>
+
+        <a href="#" class="module-card module-card--soon">
+          <div class="module-card__header">
+            <span class="module-num">07</span>
+            <span class="module-badge--soon">Em breve</span>
+          </div>
+          <div class="module-card__body">
+            <h3>JS Assíncrono</h3>
+            <p>Callbacks, Promises, async/await e requisições com fetch.</p>
+          </div>
+          <div class="module-card__footer"><span>9 aulas</span><span>2 grátis</span></div>
+        </a>
+
+        <a href="#" class="module-card module-card--soon">
+          <div class="module-card__header">
+            <span class="module-num">08</span>
+            <span class="module-badge--soon">Em breve</span>
+          </div>
+          <div class="module-card__body">
+            <h3>Orientação a Objetos</h3>
+            <p>Classes, herança, encapsulamento e padrões de projeto.</p>
+          </div>
+          <div class="module-card__footer"><span>10 aulas</span><span>2 grátis</span></div>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+  <!-- ── FIM DA HOME ── -->
+
+  <!-- SPA injeta as páginas aqui -->
+  <div id="app"></div>
+
+  <footer-bar></footer-bar>
+
+  <!-- Layout global -->
+  <script src="layout/index.js"></script>
+  <script src="layout/footer.js"></script>
+  <script src="layout/menu.js"></script>
+
+  <!-- Roteador SPA -->
+  <script src="spa/index.js"></script>
+
+  <!-- Widget de progresso da home -->
+  <script src="progress/index.js"></script>
+
+  <!-- Boas-vindas animada + relógio (só home) -->
+  <script src="partials/pages/home/index.js"></script>
+
+  <!-- Botão scroll to top (todas as páginas) -->
+  <script src="scroll/index.js"></script>
+  
 <script type="module">
 import { initTheme } from "/js/theme/theme.init.js"
-window.onload = () => { initTheme() }
-</script>
+window.onload = () => { initTheme() } </script>
 
 </body>
 </html>
